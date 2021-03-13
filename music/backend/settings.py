@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'music.urls'
+ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +73,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
-WSGI_APPLICATION = 'music.wsgi.application'
+WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 # Database
