@@ -39,3 +39,11 @@ env-dr
 .Trashes
 ehthumbs.db
 Thumbs.db
+.DS_Store
+.vscode/launch.json
+music/backend/auth/__pycache__/__init__.cpython-38.pyc
+music/backend/auth/__pycache__/__init__.cpython-39.pyc
+music/backend/auth/__pycache__/serializers.cpython-38.pyc
+music/backend/auth/__pycache__/serializers.cpython-39.pyc
+music/backend/auth/__pycache__/views.cpython-38.pyc
+music/backend/auth/__pycache__/views.cpython-39.pyc
