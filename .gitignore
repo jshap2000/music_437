@@ -48,3 +48,5 @@ music/backend/auth/__pycache__/serializers.cpython-38.pyc
 music/backend/auth/__pycache__/serializers.cpython-39.pyc
 music/backend/auth/__pycache__/views.cpython-38.pyc
 music/backend/auth/__pycache__/views.cpython-39.pyc
+music/backend/auth/__pycache__
+*.pyc
