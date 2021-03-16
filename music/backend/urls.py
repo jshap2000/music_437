@@ -2,7 +2,7 @@ from django.urls import include, path
 from django.contrib import admin
 from django.conf.urls import include, url
 from rest_framework import routers
-from backend.auth import views
+from backend.midi import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
