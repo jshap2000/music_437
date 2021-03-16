@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import UserPiece
 
-# Register your models here.
+@admin.register(UserPiece)
+class PieceAdmin(admin.ModelAdmin):
+    list_display = ('title')
