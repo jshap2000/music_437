@@ -18,4 +18,4 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class UserPieceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserPiece
-        fields = ['title']
+        fields = ['title', 'midi_file', 'user']

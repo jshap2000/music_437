@@ -3,4 +3,4 @@ from .models import UserPiece
 
 @admin.register(UserPiece)
 class PieceAdmin(admin.ModelAdmin):
-    list_display = ('title',)
+    list_display = ('title', 'midi_file', 'user')
