@@ -14,6 +14,6 @@ router.register(r'pieces', views.UserPieceViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     url(r'^admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api/', include('rest_framework.urls', namespace='rest_framework'))
     
 ]
