@@ -7,7 +7,8 @@ from backend.midi import views
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
-router.register(r'pieces', views.UserPieceViewSet)
+router.register(r'user_pieces', views.UserPieceViewSet)
+router.register(r'playable_pieces', views.PlayablePieceViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

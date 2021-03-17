@@ -2,10 +2,15 @@ from django.db import models
 from django.dispatch import receiver
 import os
 
+
 class UserPiece(models.Model):
     title = models.CharField(max_length=40)
     midi_file = models.FileField(upload_to='user_midis/')
     user = models.CharField(max_length=40)
+
+class PlayablePiece(models.Model):
+    title = models.CharField(max_length=40)
+    midi_file = models.FileField(upload_to='playable_midis/')
 
 @receiver(models.signals.post_delete, sender=UserPiece)
 def auto_delete_file_on_delete(sender, instance, **kwargs):

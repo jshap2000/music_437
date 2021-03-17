@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User, Group
-from .models import UserPiece
+from .models import UserPiece, PlayablePiece
 from rest_framework import viewsets
 from rest_framework import permissions
-from backend.midi.serializers import UserSerializer, GroupSerializer, UserPieceSerializer
+from backend.midi.serializers import UserSerializer, GroupSerializer, UserPieceSerializer, PlayablePieceSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -29,4 +29,13 @@ class UserPieceViewSet(viewsets.ModelViewSet):
     """
     queryset = UserPiece.objects.all()
     serializer_class = UserPieceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class PlayablePieceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = PlayablePiece.objects.all()
+    serializer_class = PlayablePieceSerializer
     permission_classes = [permissions.IsAuthenticated]

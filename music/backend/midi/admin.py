@@ -1,6 +1,10 @@
 from django.contrib import admin
-from .models import UserPiece
+from .models import UserPiece, PlayablePiece
 
 @admin.register(UserPiece)
-class PieceAdmin(admin.ModelAdmin):
+class UserPieceAdmin(admin.ModelAdmin):
     list_display = ('title', 'midi_file', 'user')
+
+@admin.register(PlayablePiece)
+class PlayablePieceAdmin(admin.ModelAdmin):
+    list_display = ('title', 'midi_file')
