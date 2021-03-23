@@ -106,6 +106,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <div>
+          <MusicUpload/>
+        </div>
         <h1 className="h3">react-piano recording + playback demo</h1>
         <div className="mt-5">
           <SoundfontProvider
@@ -141,15 +144,4 @@ class App extends React.Component {
 }
 
 const rootElement = document.getElementById('root');
-ReactDOM.render(
-<App />, rootElement);
-
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <MusicUpload />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-
-
+ReactDOM.render(<App />, rootElement);
