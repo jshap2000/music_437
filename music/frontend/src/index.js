@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 //import App from './App';
-import MusicUpload from './MusicUpload/MusicUpload';
-import reportWebVitals from './reportWebVitals/reportWebVitals';
+import MusicUpload from './components/MusicUpload/MusicUpload.js';
+import reportWebVitals from './components/reportWebVitals/reportWebVitals.js';
 
 ReactDOM.render(
   <React.StrictMode>
