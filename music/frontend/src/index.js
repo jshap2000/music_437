@@ -5,11 +5,13 @@ import './index.css';
 //import App from './App';
 import MusicUpload from './components/MusicUpload/MusicUpload.js';
 import reportWebVitals from './components/reportWebVitals/reportWebVitals.js';
+import BasicPiano from './components/BasicPiano/BasicPiano.js'
 
 ReactDOM.render(
   <React.StrictMode>
     <MusicUpload />
-  </React.StrictMode>,
+    <BasicPiano />
+</React.StrictMode>,
   document.getElementById('root')
 );
 

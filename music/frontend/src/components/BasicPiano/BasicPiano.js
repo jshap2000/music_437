@@ -1,8 +1,9 @@
+import React from 'react';
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css';
 
-import DimensionsProvider from '../DimensionsProvider/DimensionsProvider'
-import SoundfontProvider from '../SoundfontProvider/SoundfontProvider'
+//import DimensionsProvider from '../DimensionsProvider/DimensionsProvider'
+import SoundfontProvider from '../SoundfontProvider/SoundfontProvider.js'
 
 // webkitAudioContext fallback needed to support Safari
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -18,24 +19,34 @@ const keyboardShortcuts = KeyboardShortcuts.create({
   keyboardConfig: KeyboardShortcuts.HOME_ROW,
 });
 
-function BasicPiano() {
+export default class BasicPiano extends React.Component {
+  state = {
+    selectOptions: [],
+    title: "",
+    midi: null
+  }
+
+  render(){
     return (
-      <SoundfontProvider
-        instrumentName="acoustic_grand_piano"
-        audioContext={audioContext}
-        hostname={soundfontHostname}
-        render={({ isLoading, playNote, stopNote }) => (
-          <Piano
-            noteRange={noteRange}
-            width={300}
-            playNote={playNote}
-            stopNote={stopNote}
-            disabled={isLoading}
-            keyboardShortcuts={keyboardShortcuts}
-          />
-        )}
-      />
+      <div>
+        <SoundfontProvider
+          instrumentName="acoustic_grand_piano"
+          audioContext={audioContext}
+          hostname={soundfontHostname}
+          render={({ isLoading, playNote, stopNote }) => (
+            <Piano
+              noteRange={noteRange}
+              width={800}
+              playNote={playNote}
+              stopNote={stopNote}
+              disabled={isLoading}
+              keyboardShortcuts={keyboardShortcuts}
+            />
+          )}
+        />
+        </div>
     );
+  }
   }
 
   
