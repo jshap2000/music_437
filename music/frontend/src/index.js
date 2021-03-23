@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+//import App from './App';
+import MusicUpload from './components/MusicUpload/MusicUpload.js';
+import reportWebVitals from './components/reportWebVitals/reportWebVitals.js';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MusicUpload />
   </React.StrictMode>,
   document.getElementById('root')
 );

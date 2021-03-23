@@ -30,7 +30,7 @@ env-dr
 *.sql
 *.sqlite
 
-# OS generated files #
+# Other #
 ######################
 .DS_Store
 .DS_Store?
