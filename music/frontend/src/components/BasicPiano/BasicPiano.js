@@ -10,8 +10,8 @@ const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
 
 const noteRange = {
-  first: MidiNumbers.fromNote('c3'),
-  last: MidiNumbers.fromNote('f4'),
+  first: MidiNumbers.fromNote('c1'),
+  last: MidiNumbers.fromNote('f5'),
 };
 const keyboardShortcuts = KeyboardShortcuts.create({
   firstNote: noteRange.first,
@@ -36,7 +36,7 @@ export default class BasicPiano extends React.Component {
           render={({ isLoading, playNote, stopNote }) => (
             <Piano
               noteRange={noteRange}
-              width={800}
+              width={1400}
               playNote={playNote}
               stopNote={stopNote}
               disabled={isLoading}
