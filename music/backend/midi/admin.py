@@ -3,8 +3,8 @@ from .models import UserPiece, PlayablePiece
 
 @admin.register(UserPiece)
 class UserPieceAdmin(admin.ModelAdmin):
-    list_display = ('title', 'midi_file', 'user')
+    list_display = ('title', 'notes')
 
 @admin.register(PlayablePiece)
 class PlayablePieceAdmin(admin.ModelAdmin):
-    list_display = ('title', 'midi_file')
+    list_display = ('title', 'midi_file', 'notes')

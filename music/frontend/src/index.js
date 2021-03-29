@@ -9,6 +9,12 @@ import reportWebVitals from './components/reportWebVitals/reportWebVitals.js';
 import DimensionsProvider from './components/DimensionsProvider/DimensionsProvider.js';
 import SoundfontProvider from './components/SoundfontProvider/SoundfontProvider.js';
 import PianoWithRecording from './components/PianoWithRecording/PianoWithRecording.js';
+import Select from 'react-select'
+import axios from 'axios';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.withCredentials = true;
+
 
 // webkitAudioContext fallback needed to support Safari
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -32,6 +38,8 @@ class App extends React.Component {
       currentTime: 0,
       currentEvents: [],
     },
+    selectOptions: [],
+    title: "",
   };
 
   constructor(props) {
@@ -103,11 +111,49 @@ class App extends React.Component {
     });
   };
 
+  componentWillMount() {
+    this.getOptions()
+  }
+
+  async getOptions(){
+    const res = await axios.get('/playable_pieces');
+    const data = res.data.results;
+
+    const options = data.map(d => ({
+      "value" : d.title,
+      "label" : d.title
+    }));
+    this.setState({selectOptions: options})
+  }
+
+  handleOptionsChange(val){
+    this.setState({title: val.value});
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    let form_data = new FormData();
+    console.log(this.state.recording.events);
+    form_data.append('title', this.state.title);
+    form_data.append('notes', JSON.stringify(this.state.recording.events));
+    console.log(form_data);
+    let url = '/user_pieces/';
+    axios.post(url, form_data, {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    })
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => console.log(err))
+  };
+
   render() {
     return (
       <div>
         <div>
-          <MusicUpload/>
+          <Select options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
         </div>
         <h1 className="h3">react-piano recording + playback demo</h1>
         <div className="mt-5">
@@ -138,7 +184,13 @@ class App extends React.Component {
           <strong>Recorded notes</strong>
           <div>{JSON.stringify(this.state.recording.events)}</div>
         </div>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <input type="submit"/>
+        </form>
       </div>
+      </div>
+      
     );
   }
 }
