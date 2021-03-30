@@ -10,6 +10,8 @@ class UserPiece(models.Model):
 class PlayablePiece(models.Model):
     title = models.CharField(max_length=40)
     midi_file = models.FileField(upload_to='playable_midis/')
+    time_signature = models.IntegerField(blank=True,null=True)
+    time_per_note = models.FloatField(blank=True,null=True)
     notes = JSONField(default=list,null=True,blank=True)
 
 @receiver(models.signals.post_delete, sender=PlayablePiece)

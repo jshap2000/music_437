@@ -29,7 +29,7 @@ class UserPieceViewSet(viewsets.ModelViewSet):
     """
     queryset = UserPiece.objects.all()
     serializer_class = UserPieceSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
 
 class PlayablePieceViewSet(viewsets.ModelViewSet):
@@ -38,4 +38,4 @@ class PlayablePieceViewSet(viewsets.ModelViewSet):
     """
     queryset = PlayablePiece.objects.all()
     serializer_class = PlayablePieceSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]

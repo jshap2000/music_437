@@ -8,12 +8,10 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ['url', 'username', 'email', 'groups']
 
-
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ['url', 'name']
-
 
 class UserPieceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -23,4 +21,4 @@ class UserPieceSerializer(serializers.HyperlinkedModelSerializer):
 class PlayablePieceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PlayablePiece
-        fields = ['title', 'midi_file', 'notes']
+        fields = ['title', 'midi_file', 'time_signature', 'time_per_note', 'notes']
