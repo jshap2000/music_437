@@ -33,7 +33,7 @@ python manage.py migrate
 
 Create a superuser (you can access the django admin page with this user at localhost:8000/admin, which is helpful for observing databases)
 ```bash
-python3 manage.py createsuperuser
+python manage.py createsuperuser
 ```
 
 Check if you can run the Django server
