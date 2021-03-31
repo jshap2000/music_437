@@ -31,6 +31,11 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
+Create a superuser (you can access the django admin page with this user at localhost:8000/admin, which is helpful for observing databases)
+```bash
+python3 manage.py createsuperuser
+```
+
 Check if you can run the Django server
 ```bash
 python manage.py runserver
