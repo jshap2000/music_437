@@ -1,5 +1,5 @@
 from MidiData import MidiData
-from JsonNote import 
+from JsonNote import JsonNote
 
 # Takes in a midi file and returns a python list containing each note with 'midiNumber' and 'time'
 # call json.dumps(jsonNoteList) to convert to json format
