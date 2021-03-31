@@ -31,14 +31,25 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-Create a superuser (you can access the django admin page with this user at localhost:8000/admin, which is helpful for observing databases)
+Create a superuser to access the REST framework
 ```bash
 python manage.py createsuperuser
 ```
 
-Check if you can run the Django server
+Change directory to ./music/ Check if you can run the Django server
 ```bash
 python manage.py runserver
 ```
 
-Enter the server address into a Chrome-based web browser
+To start the frontend React app
+```bash
+npm install
+```
+
+Change directory to ./music/frontend
+```bash
+npm run build 
+npm start server
+```
+
+
