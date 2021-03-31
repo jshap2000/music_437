@@ -25,6 +25,12 @@ Install Required Python Modules
 pip install -r requirements.txt
 ```
 
+Run Migrations
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
 Check if you can run the Django server
 ```bash
 python manage.py runserver
