@@ -6,7 +6,6 @@ import 'react-piano/dist/styles.css';
 import {gradeUser} from './components/Grading/Grading.js';
 import MusicUpload from './components/MusicUpload/MusicUpload.js';
 import reportWebVitals from './components/reportWebVitals/reportWebVitals.js';
-
 import DimensionsProvider from './components/DimensionsProvider/DimensionsProvider.js';
 import SoundfontProvider from './components/SoundfontProvider/SoundfontProvider.js';
 import PianoWithRecording from './components/PianoWithRecording/PianoWithRecording.js';
