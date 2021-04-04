@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css';
+import {gradeUser} from './components/Grading/Grading.js';
 import MusicUpload from './components/MusicUpload/MusicUpload.js';
 import reportWebVitals from './components/reportWebVitals/reportWebVitals.js';
-
 import DimensionsProvider from './components/DimensionsProvider/DimensionsProvider.js';
 import SoundfontProvider from './components/SoundfontProvider/SoundfontProvider.js';
 import PianoWithRecording from './components/PianoWithRecording/PianoWithRecording.js';
@@ -111,17 +111,31 @@ class App extends React.Component {
     });
   };
 
+  onClickGrade = () => {
+    var i = 0;
+    while (this.state.selectOptions[i]){
+      if (this.state.selectOptions[i].value == this.state.title) {  
+        var grade = gradeUser(this.state.selectOptions[i].notes, this.state.recording.events);
+        break;
+      }
+      i++;
+    }
+    return grade;
+  };
+   
   componentWillMount() {
     this.getOptions()
   }
 
-  async getOptions(){
+  async getOptions() {
     const res = await axios.get('/playable_pieces');
+    console.log(res);
     const data = res.data.results;
 
     const options = data.map(d => ({
       "value" : d.title,
-      "label" : d.title
+      "label" : d.title,
+      "notes" : d.notes
     }));
     this.setState({selectOptions: options})
   }
@@ -179,6 +193,7 @@ class App extends React.Component {
           <button onClick={this.onClickPlay}>Play</button>
           <button onClick={this.onClickStop}>Stop</button>
           <button onClick={this.onClickClear}>Clear</button>
+          <button onClick={this.onClickGrade}>Grade</button>
         </div>
         <div className="mt-5">
           <strong>Recorded notes</strong>
