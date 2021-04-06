@@ -12,6 +12,7 @@ class PianoWithRecording extends React.Component {
   state = {
     keysDown: {},
     noteDuration: DEFAULT_NOTE_DURATION,
+    timerStart: 0
   };
 
   onPlayNoteInput = midiNumber => {
@@ -31,21 +32,45 @@ class PianoWithRecording extends React.Component {
   };
 
   recordNotes = (midiNumbers, duration) => {
-    if (this.props.recording.mode !== 'RECORDING') {
-      return;
-    }
+    if (this.props.recording.mode !== 'RECORDING') {return;}
+
     const newEvents = midiNumbers.map(midiNumber => {
+     
+      // If the user hit clear, add notes from time: 0
+      if (this.props.recording.events.length === 0 && this.state.timerStart !== 0) {
+        this.setState({timerStart: Date.now()})
+        return {
+          midiNumber,
+          time: 0,
+          duration: duration
+        };
+      } 
+
+      // If user is playing for the first time, add notes from time: 0
+      if (this.state.timerStart === 0) {
+        this.setState({timerStart: Date.now()})
+        return {
+          midiNumber,
+          time: 0,
+          duration: duration
+        };
+      }
+
+      // Otherwise add notes from time: timerStart
       return {
         midiNumber,
-        time: this.props.recording.currentTime,
-        duration: duration,
+        time: this.toMiliseconds(Date.now() - this.state.timerStart),
+        duration: duration
       };
     });
+
     this.props.setRecording({
       events: this.props.recording.events.concat(newEvents),
-      currentTime: this.props.recording.currentTime + duration,
+      timerOn: true
     });
   };
+
+  toMiliseconds(dateTime) {return dateTime * 0.001;}
 
   render() {
     const {
