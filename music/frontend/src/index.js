@@ -9,8 +9,11 @@ import reportWebVitals from './components/reportWebVitals/reportWebVitals.js';
 import DimensionsProvider from './components/DimensionsProvider/DimensionsProvider.js';
 import SoundfontProvider from './components/SoundfontProvider/SoundfontProvider.js';
 import PianoWithRecording from './components/PianoWithRecording/PianoWithRecording.js';
+import DisplaySheetMusic from './components/DisplaySheetMusic/display.js'
 import Select from 'react-select'
 import axios from 'axios';
+
+
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
@@ -114,7 +117,7 @@ class App extends React.Component {
   onClickGrade = () => {
     var i = 0;
     while (this.state.selectOptions[i]){
-      if (this.state.selectOptions[i].value == this.state.title) {  
+      if (this.state.selectOptions[i].value == this.state.title) {
         var grade = gradeUser(this.state.selectOptions[i].notes, this.state.recording.events);
         break;
       }
@@ -122,7 +125,7 @@ class App extends React.Component {
     }
     return grade;
   };
-   
+
   componentWillMount() {
     this.getOptions()
   }
@@ -169,7 +172,7 @@ class App extends React.Component {
         <div>
           <Select options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
         </div>
-        <h1 className="h3">react-piano recording + playback demo</h1>
+
         <div className="mt-5">
           <SoundfontProvider
             instrumentName="acoustic_grand_piano"
@@ -204,8 +207,11 @@ class App extends React.Component {
           <input type="submit"/>
         </form>
       </div>
+      <div>
+        <DisplaySheetMusic/>
       </div>
-      
+      </div>
+
     );
   }
 }
