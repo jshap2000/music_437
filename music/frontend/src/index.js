@@ -37,7 +37,9 @@ class App extends React.Component {
       events: [],
       currentTime: 0,
       currentEvents: [],
+      timerOn: true,
     },
+    
     selectOptions: [],
     title: "",
   };
@@ -48,6 +50,9 @@ class App extends React.Component {
     this.scheduledEvents = [];
   }
 
+  //
+  // React-Piano
+  //
   getRecordingEndTime = () => {
     if (this.state.recording.events.length === 0) {
       return 0;
@@ -107,14 +112,20 @@ class App extends React.Component {
       events: [],
       mode: 'RECORDING',
       currentEvents: [],
-      currentTime: 0,
+      timerOn: false
+    });
+    this.setState({
+      currentTime: 0
     });
   };
 
+  //
+  // Grading
+  //
   onClickGrade = () => {
     var i = 0;
     while (this.state.selectOptions[i]){
-      if (this.state.selectOptions[i].value == this.state.title) {  
+      if (this.state.selectOptions[i].value === this.state.title) {  
         var grade = gradeUser(this.state.selectOptions[i].notes, this.state.recording.events);
         break;
       }
@@ -123,6 +134,9 @@ class App extends React.Component {
     return grade;
   };
    
+  //
+  // API
+  // 
   componentWillMount() {
     this.getOptions()
   }
@@ -177,6 +191,7 @@ class App extends React.Component {
             hostname={soundfontHostname}
             render={({ isLoading, playNote, stopNote }) => (
               <PianoWithRecording
+                timerStart={this.state.timerStart}
                 recording={this.state.recording}
                 setRecording={this.setRecording}
                 noteRange={noteRange}
@@ -185,6 +200,7 @@ class App extends React.Component {
                 stopNote={stopNote}
                 disabled={isLoading}
                 keyboardShortcuts={keyboardShortcuts}
+                timerOn={this.state.timerOn}
               />
             )}
           />
