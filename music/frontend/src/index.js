@@ -9,6 +9,7 @@ import reportWebVitals from './components/reportWebVitals/reportWebVitals.js';
 import DimensionsProvider from './components/DimensionsProvider/DimensionsProvider.js';
 import SoundfontProvider from './components/SoundfontProvider/SoundfontProvider.js';
 import PianoWithRecording from './components/PianoWithRecording/PianoWithRecording.js';
+import DisplaySheetMusic from './components/DisplaySheetMusic/display.js'
 import Select from 'react-select'
 import axios from 'axios';
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -39,7 +40,7 @@ class App extends React.Component {
       currentEvents: [],
       timerOn: true,
     },
-    
+
     selectOptions: [],
     title: "",
   };
@@ -125,7 +126,7 @@ class App extends React.Component {
   onClickGrade = () => {
     var i = 0;
     while (this.state.selectOptions[i]){
-      if (this.state.selectOptions[i].value === this.state.title) {  
+      if (this.state.selectOptions[i].value === this.state.title) {
         var grade = gradeUser(this.state.selectOptions[i].notes, this.state.recording.events);
         break;
       }
@@ -133,10 +134,10 @@ class App extends React.Component {
     }
     return grade;
   };
-   
+
   //
   // API
-  // 
+  //
   componentWillMount() {
     this.getOptions()
   }
@@ -195,7 +196,7 @@ class App extends React.Component {
                 recording={this.state.recording}
                 setRecording={this.setRecording}
                 noteRange={noteRange}
-                width={300}
+                width={900}
                 playNote={playNote}
                 stopNote={stopNote}
                 disabled={isLoading}
@@ -220,8 +221,11 @@ class App extends React.Component {
           <input type="submit"/>
         </form>
       </div>
+      <div>
+        <DisplaySheetMusic/>
       </div>
-      
+      </div>
+
     );
   }
 }
