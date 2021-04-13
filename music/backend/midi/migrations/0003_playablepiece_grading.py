@@ -23,11 +23,18 @@ class Migration(migrations.Migration):
         ),
     ]
 
+    playable_pieces = [['Te_ver', 4, 500], ['Carol_of_the_bells', 3, 500]]
+    PlayablePiece.objects.all().delete()
+
+    for piece in playable_pieces:
+        file_path = os.getcwd() + "/media/playable_midis/" + piece[0] + '.mid'
+        PlayablePiece(title=piece[0], midi_file=file_path, time_signature=piece[1], time_per_note=piece[2]).save()
+
     for piece in PlayablePiece.objects.all():
         if piece.time_per_note:
             notes = {}
             grading = {}
-            midi_file = os.getcwd() + "/media/" + str(piece.midi_file)
+            midi_file = str(piece.midi_file)
             midiData = MidiData(midi_file)
             for i in range(midiData.getNumTracks()):
                 track = midiData.getTrack(i)
@@ -59,3 +66,10 @@ class Migration(migrations.Migration):
             piece.grading = grading
             piece.save()
 
+
+
+
+
+
+
+    

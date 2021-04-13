@@ -198,7 +198,7 @@ afterSetStateFinished() {
 
       var durations = [];
       var notes_dict = JSON.parse((String(this.state.notes).replace(/'/g,'"').replace(/\.0/g,".0").replace(/\.5/g,".5")));
-     
+     // ['c', '', 2]
       var end_time = 0
       var keys = []
       let notes_treble = [];
@@ -206,12 +206,11 @@ afterSetStateFinished() {
       for (var key in notes_dict) {
         let note1 = notes_dict[key];
         for (var n of note1) {
-          
           if(n[0]<=58) {
-            var appendNote = [n[1].toLowerCase(), '', n[2]];
+            var appendNote = [n[1].toLowerCase(), n[3].toLowerCase().trim(), n[2]];
             notes_bass.push(appendNote);
           } else {
-            var appendNote = [n[1].toLowerCase(), '', n[2]];
+            var appendNote = [n[1].toLowerCase(), n[3].toLowerCase().trim(), n[2]];
             notes_treble.push(appendNote);
           }
         }
