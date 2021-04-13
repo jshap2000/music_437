@@ -12,7 +12,9 @@ class PlayablePiece(models.Model):
     midi_file = models.FileField(upload_to='playable_midis/')
     time_signature = models.IntegerField(blank=True,null=True)
     time_per_note = models.FloatField(blank=True,null=True)
+    grading = JSONField(default=list,null=True,blank=True)
     notes = JSONField(default=list,null=True,blank=True)
+    
 
 @receiver(models.signals.post_delete, sender=PlayablePiece)
 def auto_delete_file_on_delete(sender, instance, **kwargs):

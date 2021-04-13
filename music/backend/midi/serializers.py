@@ -21,4 +21,4 @@ class UserPieceSerializer(serializers.HyperlinkedModelSerializer):
 class PlayablePieceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PlayablePiece
-        fields = ['title', 'midi_file', 'time_signature', 'time_per_note', 'notes']
+        fields = ['title', 'midi_file', 'time_signature', 'time_per_note', 'grading', 'notes']

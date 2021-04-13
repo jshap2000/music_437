@@ -1,5 +1,5 @@
-from backend.midi.Note import Note
-from backend.midi.MidiEvents import *
+from backend.midi.midi_analyzer.Note import Note
+from backend.midi.midi_analyzer.MidiEvents import *
 import bisect
 
 

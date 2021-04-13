@@ -1,6 +1,6 @@
-from backend.midi.MidiParser import MidiParser
-from backend.midi.MidiEvents import *
-from backend.midi.Util import Util
+from backend.midi.midi_analyzer.MidiParser import MidiParser
+from backend.midi.midi_analyzer.MidiEvents import *
+from backend.midi.midi_analyzer.Util import Util
 
 
 # decodes data from the MidiParser into data easier to work with in MidiData

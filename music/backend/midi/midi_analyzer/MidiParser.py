@@ -5,7 +5,7 @@
 #   Midi Channel events, including delta time
 #   Meta Event
 #   System Exclusive Event
-from backend.midi.Util import Util
+from backend.midi.midi_analyzer.Util import Util
 
 
 class MidiParser:
