@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css';
 import './index.css';
-import {gradeUser} from './components/Grading/Grading.js';
 import MusicUpload from './components/MusicUpload/MusicUpload.js';
 import reportWebVitals from './components/reportWebVitals/reportWebVitals.js';
 import DimensionsProvider from './components/DimensionsProvider/DimensionsProvider.js';
@@ -13,12 +12,10 @@ import SoundfontProvider from './components/SoundfontProvider/SoundfontProvider.
 import PianoWithRecording from './components/PianoWithRecording/PianoWithRecording.js';
 import Select from 'react-select'
 import axios from 'axios';
+
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
-
-
-
 
 const VF = Vex.Flow;
 
@@ -31,13 +28,12 @@ const {
     EasyScore,
 } = Vex.Flow;
 
-
 // webkitAudioContext fallback needed to support Safari
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
 
 const noteRange = {
-  first: MidiNumbers.fromNote('c4'),
+  first: MidiNumbers.fromNote('c3'),
   last: MidiNumbers.fromNote('f5'),
 };
 const keyboardShortcuts = KeyboardShortcuts.create({
@@ -106,7 +102,6 @@ class App extends React.Component {
     });
   };
    
-
   componentWillMount() {
     this.getOptions()
   }
@@ -312,9 +307,6 @@ afterSetStateFinished() {
           visibleNoteGroups.push(group);
           note.draw();
       
-      
-      
-      
       context.closeGroup();
       group.classList.add('scroll');
       // Force a dom-refresh by asking for the group's bounding box. Why? Most
@@ -336,10 +328,6 @@ afterSetStateFinished() {
           // visibleNoteGroups.shift();
       }, 5000); }
 
-
-
-
-
       for(var i = 0; i < bass_arr[counter]; i++) {
         var note = notes3.shift();
         if (!note) return;
@@ -347,9 +335,6 @@ afterSetStateFinished() {
         const group = context.openGroup();
         visibleNoteGroups.push(group);
         note.draw();
-    
-    
-    
     
     context.closeGroup();
     group.classList.add('scroll');
@@ -374,17 +359,8 @@ afterSetStateFinished() {
 
     counter+=1;
 
-    
+      }, 250);  
 
-
-
-      }, 250);
-
-        
-
-    
-   
-      
   }
 
   handleGrading = (e) => {
@@ -421,22 +397,45 @@ afterSetStateFinished() {
   
   };
 
-
-
-  
-
   render() {
     
     // And get a drawing context:
     
 
     return (
+      
       <div id="page">
+
+        {/* header */}
+        <h1 className="header" >Piano Trainer Beta</h1>
+
+        {/* song slection   */}
         <div>
           <Select options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
         </div>
-        <h1 className="h3">react-piano recording + playback demo</h1>
+        
+        {/* recording notes for development 
         <div className="mt-5">
+          <div>{JSON.stringify(this.state.recording.events)}</div>
+        </div> */}
+        
+        {/* sheet music render */}
+        {/* <div id="container">
+          <div id="music"></div>
+        </div> */}
+                
+        <div>
+          <div id={'exercise-container'}>
+          <div id="container">
+                <div id="music"></div>
+                </div>
+                <div id="controls">
+          </div>
+          </div>
+        </div>
+          
+        {/* keyboard */}
+        <div className="mt-5" id='piano_container'>
           <SoundfontProvider
             instrumentName="acoustic_grand_piano"
             audioContext={audioContext}
@@ -447,7 +446,7 @@ afterSetStateFinished() {
                 recording={this.state.recording}
                 setRecording={this.setRecording}
                 noteRange={noteRange}
-                width={300}
+                width={700}
                 playNote={playNote}
                 stopNote={stopNote}
                 disabled={isLoading}
@@ -457,29 +456,19 @@ afterSetStateFinished() {
             )}
           />
         </div>
-        <div className="mt-5">
-        <div>{JSON.stringify(this.state.recording.events)}</div>
-        </div>
-        
-        <div>
-          <div id={'exercise-container'}>
-          <div id="container">
-                <div id="music"></div>
-                </div>
-                <div id="controls">
-          </div>
-          </div>
-        </div>
+
+
+        {/* display grade */}
         <div id = 'grading'>
           Correct: <div id = 'correct'></div>
           Incorrect: <div id = 'incorrect'></div>
           Unplayed: <div id = 'unplayed'></div>
-             
         </div>
+
+        {/* grade button  */}
         <button onClick={this.handleGrading}>Grade</button>
-          
+
       </div>
-      
     );
   }
 }
