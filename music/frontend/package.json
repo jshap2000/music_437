@@ -17,6 +17,7 @@
     "react-select": "^4.2.1",
     "reactstrap": "^8.9.0",
     "soundfont-player": "^0.12.0",
+    "vexflow": "^3.0.9",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
