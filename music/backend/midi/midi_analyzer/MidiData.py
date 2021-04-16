@@ -1,7 +1,7 @@
-from backend.midi.MidiEventDecoder import MidiEventDecoder
-from backend.midi.TrackData import TrackData
-from backend.midi.TrackData import TempoChanges
-from backend.midi.MidiEvents import *
+from backend.midi.midi_analyzer.MidiEventDecoder import MidiEventDecoder
+from backend.midi.midi_analyzer.TrackData import TrackData
+from backend.midi.midi_analyzer.TrackData import TempoChanges
+from backend.midi.midi_analyzer.MidiEvents import *
 
 
 # contains the finalized data after analysis

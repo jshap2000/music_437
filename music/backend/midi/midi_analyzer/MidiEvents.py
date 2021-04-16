@@ -1,4 +1,4 @@
-from backend.midi.Util import Util
+from backend.midi.midi_analyzer.Util import Util
 import math
 
 
