@@ -23,12 +23,12 @@ class Migration(migrations.Migration):
         ),
     ]
 
-    playable_pieces = [['Te_ver', 4, 500]]
+    playable_pieces = [['Te_ver', 'Te Ver', 4, 500], ['corale', 'Corale', 3, 500]]
     PlayablePiece.objects.all().delete()
 
     for piece in playable_pieces:
         file_path = os.getcwd() + "/media/playable_midis/" + piece[0] + '.mid'
-        PlayablePiece(title=piece[0], midi_file=file_path, time_signature=piece[1], time_per_note=piece[2]).save()
+        PlayablePiece(title=piece[1], midi_file=file_path, time_signature=piece[2], time_per_note=piece[3]).save()
 
     for piece in PlayablePiece.objects.all():
         if piece.time_per_note:
