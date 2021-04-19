@@ -15,9 +15,14 @@ Add the name of your local environment to ".gitignore"
 ```bash
 echo '{Environment Name}' > .gitignore
 ```
-Start your local environment
+Start your local environment: Windows
 ```bash
 {Environment Name}\Scripts\Activate
+```
+
+Start your local environment: Mac
+```bash
+source {Environment Name}/bin/activate
 ```
 
 Install Required Python Modules
@@ -27,7 +32,6 @@ pip install -r requirements.txt
 
 Run Migrations
 ```bash
-python manage.py makemigrations
 python manage.py migrate
 ```
 
@@ -48,6 +52,7 @@ npm install
 
 Change directory to ./music/frontend
 ```bash
+npm i
 npm run build 
 npm start server
 ```
