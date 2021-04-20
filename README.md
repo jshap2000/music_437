@@ -11,7 +11,7 @@ Create a virtual environment for local setup.
 ```bash
 python -m venv {Environment Name}
 ```
-Add the name of your local environment to ".gitignore"
+OPTIONAL (If you intend on editing this code base, complete this step): Add the name of your local environment to ".gitignore"
 ```bash
 echo '{Environment Name}' > .gitignore
 ```
@@ -30,30 +30,30 @@ Install Required Python Modules
 pip install -r requirements.txt
 ```
 
+Change directory to ./music/
+```bash
+cd music
+```
+
 Run Migrations
 ```bash
 python manage.py migrate
 ```
 
-Create a superuser to access the REST framework
-```bash
-python manage.py createsuperuser
-```
-
-Change directory to ./music/ Check if you can run the Django server
+Check if you can run the Django server (at same directory level as migrations)
 ```bash
 python manage.py runserver
 ```
 
-To start the frontend React app
+OPTIONAL: Create a superuser to access the REST framework
 ```bash
-npm install
+python manage.py createsuperuser
 ```
 
-Change directory to ./music/frontend
+To start the frontend React app
 ```bash
-npm i
-npm run build 
+cd ./music/frontend
+npm install
 npm start server
 ```
 
