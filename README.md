@@ -50,7 +50,7 @@ OPTIONAL: Create a superuser to access the REST framework
 python manage.py createsuperuser
 ```
 
-To start the frontend React app
+To start the frontend React app (in a seperate terminal window while the backend is still running)
 ```bash
 cd ./music/frontend
 npm install
