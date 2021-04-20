@@ -388,16 +388,14 @@ afterSetStateFinished() {
   }
 
   handleGrading = (e) => {
-    var note_dict = JSON.parse((String(this.state.grading).replace(/'/g,'"').replace(/\.0/g,".0").replace(/\.5/g,".50"))); 
+    var note_dict = JSON.parse((String(this.state.grading).replace(/'/g,'"').replace(/\.0/g,".0").replace(/\.5/g,".5"))); 
     let correct_notes = []
     var incorrect_notes = []
     var unplayed_notes = []
     for (let note of this.state.recording.events) {
-      
-      let timestamp = (Math.round((note.time-5.236) * 4) / 4).toFixed(2);
+      let timestamp = (Math.round((note.time-5.309) * 4) / 4).toFixed(2);
       if(timestamp<-4) {}
       else if(note_dict[timestamp] && note_dict[timestamp].indexOf(note.midiNumber)!=-1) {
-        
         var index = 0;
         note_dict[timestamp].splice(note_dict[timestamp].indexOf(note.midiNumber), 1)//note_dict[timestamp].remove(note.midiNumber);
         correct_notes.push({time: timestamp, midiNumber: note.midiNumber})
