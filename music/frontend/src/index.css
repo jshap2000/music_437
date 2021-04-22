@@ -49,3 +49,8 @@ code {
 .too-slow {
   transform: translate(400px, -2000px);
 }
+
+.grading {
+  width: 70%;
+  margin: auto;
+}
