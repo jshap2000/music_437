@@ -489,7 +489,7 @@ afterSetStateFinished() {
     }
 
     
-    console.log(end_time);
+   
     var octaves = this.getOctave()
     
     //console.log(final_note_dict);
@@ -528,6 +528,7 @@ afterSetStateFinished() {
     
     a+=400;
     c+=400;
+   
     
     
     
@@ -550,21 +551,49 @@ afterSetStateFinished() {
         var keys = [];
         var status_arr = []
         var sharp_arr = []
-        for(let note of final_note_dict[time_str]) {
-          if(note['midiNumber']> 58) {
-            keys.push(octaves[note['midiNumber']]['together'])
+        let arr = final_note_dict[time_str];
+        
+        
+        var min_midi_number;
+        var whole_note;
+        var midi_counter;
+        
+        var remainders = []
+        while(arr.length > 0) {
           
-            status_arr.push(note['status'])
-            sharp_arr.push(octaves[note['midiNumber']]['sharp'])
+          if(arr[0]['midiNumber']<60) {
+            remainders.push(arr[0])
+            arr.splice(0, 1)
+          } else {
+           
+          min_midi_number= arr[0]['midiNumber'];
+          whole_note = arr[0];
+          midi_counter= 0;
+          var dl = 0;
+          for(let note of arr) {
+            if(note['midiNumber']< min_midi_number && note['midiNumber']>= 60) {
+              min_midi_number = note['midiNumber']
+              whole_note = note
+              midi_counter = dl;
+            }
+            dl++;
           }
+          arr.splice(midi_counter, 1)
+          keys.push(octaves[whole_note['midiNumber']]['together'])
+          status_arr.push(whole_note['status'])
+          sharp_arr.push(octaves[whole_note['midiNumber']]['sharp'])
         }
+        }
+        //arr = remainders
+        
         if(keys.length>0) {
+          
           notes.push([{ keys: keys, duration: "16" }, status_arr, sharp_arr])
         } else {
           notes.push([{keys:["r/16"], duration: "16r" }, 'rest']);
         }
+        final_note_dict[time_str] = remainders
         
-        console.log(notes);
       } else {
         notes.push([{keys:["r/16"], duration: "16r" }, 'rest']);
       }
@@ -575,10 +604,12 @@ afterSetStateFinished() {
     
     var stave_notes = []
     for(let note of notes) {
+        
         var stave_note = new VF.StaveNote(note[0]);
         if(note[1]!= 'rest') {
           var counting = 0
           for(let status of note[1]) {
+           
             if(status == 'unplayed') {
               stave_note.setKeyStyle(counting, { fillStyle: 'tomato', strokeStyle: 'tomato' });
             }
@@ -606,9 +637,6 @@ afterSetStateFinished() {
 
     VF.Formatter.FormatAndDraw(context, stave, stave_notes, false);
     
-    //beam1.setContext(context).draw();
-   // beam2.setContext(context).draw();
-   // beam3.setContext(context).draw();
     stave.setContext(context).draw();
 
 
@@ -636,17 +664,37 @@ afterSetStateFinished() {
         time_str+="0"
       }
       if(final_note_dict[time_str]) {
-        
         var keys = [];
         var status_arr = []
         var sharp_arr = []
-        for(let note of final_note_dict[time_str]) {
-          if(note['midiNumber']<= 58) {
-          keys.push(octaves[note['midiNumber']]['together'])
-         
-          status_arr.push(note['status'])
-          sharp_arr.push(octaves[note['midiNumber']]['sharp'])
+        let arr = final_note_dict[time_str];
+        
+        
+        var min_midi_number;
+        var whole_note;
+        var midi_counter;
+        while(arr.length> 0) {
+          if(arr[0]['midiNumber']>=60) {
+            arr.splice(0, 1)
+          } else {
+            console.log('arrived')
+          min_midi_number= arr[0]['midiNumber'];
+          whole_note = arr[0];
+          midi_counter= 0;
+          var dl = 0;
+          for(let note of arr) {
+            if(note['midiNumber']< min_midi_number && note['midiNumber']< 0) {
+              min_midi_number = note['midiNumber']
+              whole_note = note
+              midi_counter = dl;
+            }
+            dl++;
           }
+          arr.splice(midi_counter, 1)
+          keys.push(octaves[whole_note['midiNumber']]['together'])
+          status_arr.push(whole_note['status'])
+          sharp_arr.push(octaves[whole_note['midiNumber']]['sharp'])
+        }
         }
         if(keys.length>0) {
           notes.push([{clef: "bass", keys: keys, duration: "16" }, status_arr, sharp_arr])
@@ -654,7 +702,7 @@ afterSetStateFinished() {
           notes.push([{clef: "bass", keys:["r/16"], duration: "16r" }, 'rest']);
         }
         
-        console.log(notes);
+       
       } else {
         notes.push([{clef: "bass", keys:["r/16"], duration: "16r" }, 'rest']);
       }
