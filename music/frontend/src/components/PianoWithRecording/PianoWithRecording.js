@@ -1,5 +1,6 @@
 import React from 'react';
 import { Piano } from 'react-piano';
+import jQuery from 'jquery'
 
 const DURATION_UNIT = 0.2;
 const DEFAULT_NOTE_DURATION = DURATION_UNIT;
@@ -11,7 +12,7 @@ class PianoWithRecording extends React.Component {
 
     constructor (props){
       super(props);
-
+      this.ref = React.createRef();
       this.state = {
         keysDown: {},
         noteDuration: DEFAULT_NOTE_DURATION,
@@ -30,6 +31,10 @@ class PianoWithRecording extends React.Component {
       notesRecorded: false,
     });
   };
+
+  
+
+  
 
 
   onStopNoteInput = (midiNumber, { prevActiveNotes }) => {
@@ -87,7 +92,6 @@ class PianoWithRecording extends React.Component {
   toMiliseconds(dateTime) {return dateTime * 0.001;}
 
   onMIDISuccess = (midiAccess) => {
-    this.toMiliseconds(Date.now())
     for (var input of midiAccess.inputs.values()) {
       input.onmidimessage = this.getMIDIMessage;
     }
@@ -99,15 +103,9 @@ class PianoWithRecording extends React.Component {
     var velocity = (message.data.length > 2) ? message.data[2] : 0; // a velocity value might not be included with a noteOff command
     
     switch (command) {
-        case 144: // noteOn
-            //if (velocity > 0) {
-              //  noteOn(note, velocity);
-            //} else {
-               // noteOff(note);
-            //}
-            //console.log("hey")
-            //this.ye("hey", "ho")
+        case 144: 
             console.log(note);
+            
             this.props.playNote(note);
             this.recordNotes([note],0.2)
             break;
@@ -149,8 +147,9 @@ class PianoWithRecording extends React.Component {
     const activeNotes =
       mode === 'PLAYING' ? currentEvents.map(event => event.midiNumber) : null;
     return (
-      <div>
-        <Piano
+      <div >
+        
+        <Piano 
           playNote={this.props.playNote}
           stopNote={this.props.stopNote}
           onPlayNoteInput={this.onPlayNoteInput}

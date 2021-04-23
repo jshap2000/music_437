@@ -5,7 +5,6 @@ import _ from 'lodash';
 import { Piano, KeyboardShortcuts, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css';
 import './index.css';
-import {gradeUser} from './components/Grading/Grading.js';
 import MusicUpload from './components/MusicUpload/MusicUpload.js';
 import reportWebVitals from './components/reportWebVitals/reportWebVitals.js';
 import DimensionsProvider from './components/DimensionsProvider/DimensionsProvider.js';
@@ -37,7 +36,7 @@ const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const soundfontHostname = 'https://d1pzp51pvbm36p.cloudfront.net';
 
 const noteRange = {
-  first: MidiNumbers.fromNote('c4'),
+  first: MidiNumbers.fromNote('c3'),
   last: MidiNumbers.fromNote('f5'),
 };
 const keyboardShortcuts = KeyboardShortcuts.create({
@@ -59,8 +58,10 @@ class App extends React.Component {
     title: "",
     grading: "",
     notes: "",
+    preset:false,
     playing: false,
     interval: null,
+    just_switched_song: false,
   };
 
   constructor(props) {
@@ -81,13 +82,16 @@ class App extends React.Component {
     this.setState({
       recording: Object.assign({}, this.state.recording, value),
     });
+    if(this.state.playing==true) {
+      this.afterSetStateFinished();
+    }
   };
 
   handleReturn = () => {
     document.getElementById('grading-display').innerHTML ="";
     document.getElementById('playing-display').hidden = "";
     document.getElementById('grading').hidden = "hidden";
-    this.setState({playing:false});
+    this.setState({playing:true});
   }
   
   onClickStop = () => {
@@ -130,17 +134,15 @@ class App extends React.Component {
     this.setState({selectOptions: options})
   }
 
-  
+ 
 
   handleOptionsChange(val){
-    this.setState({title: val.value, notes: val.notes, grading: val.grading}, () => {
-      document.addEventListener('keypress', (e) => {
-        if(this.state.playing==false) {
-          this.onClickClear();
-          this.afterSetStateFinished();
-        }
-      });
+    this.setState({title: val.value, notes: val.notes, grading: val.grading, currentTime: 0, playing: false}, () => { 
+      this.onClickClear();
+      this.setState({playing: true});
+      
     });
+    
   }
 
 afterSetStateFinished() {
@@ -152,7 +154,7 @@ afterSetStateFinished() {
       // Create an SVG renderer and attach it to the DIV element named "boo".
 
     var context = renderer.getContext();
-    renderer.resize(500, 500);
+    renderer.resize(10000, 10000);
 
       // A tickContext is required to draw anything that would be placed
       // in relation to time/rhythm, including StaveNote which we use here.
@@ -437,7 +439,7 @@ afterSetStateFinished() {
     document.getElementById('correct').innerHTML=correct_notes.length;
     document.getElementById('incorrect').innerHTML=incorrect_notes.length;
     document.getElementById('unplayed').innerHTML=unplayed_notes.length;
-    
+    this.state.playing=false;
     this.onClickClear();
     clearInterval(this.state.interval);
     document.getElementById('music').innerHTML ="";
@@ -762,6 +764,7 @@ afterSetStateFinished() {
 
     return (
       <div id="page">
+        <h1 className="header" >Piano Trainer Beta</h1>
         <div id = 'grading' hidden='hidden'>
           <button onClick={this.handleReturn}>Play Again</button>
           Correct: <div id = 'correct'></div>
@@ -769,12 +772,22 @@ afterSetStateFinished() {
           Unplayed: <div id = 'unplayed'></div>
           <div id ="grading-display" className="grading"></div>
         </div>
-        <div id = "playing-display">
+        <div id = "playing-display" className="playing">
         <div>
           <Select options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
         </div>
-        <h1 className="h3">react-piano recording + playback demo</h1>
-        <div className="mt-5">
+        <div>
+          <div id={'exercise-container'}>
+          <div id="container">
+                <div id="music"></div>
+                </div>
+                <div id="controls">
+          </div>
+          </div>
+        </div>
+          
+        {/* keyboard */}
+        <div className="mt-5" id='piano_container'>
           <SoundfontProvider
             instrumentName="acoustic_grand_piano"
             audioContext={audioContext}
@@ -785,7 +798,7 @@ afterSetStateFinished() {
                 recording={this.state.recording}
                 setRecording={this.setRecording}
                 noteRange={noteRange}
-                width={300}
+                width={700}
                 playNote={playNote}
                 stopNote={stopNote}
                 disabled={isLoading}
@@ -799,17 +812,7 @@ afterSetStateFinished() {
         <div>{JSON.stringify(this.state.recording.events)}</div>
         </div>
         
-        <div>
-          <div id={'exercise-container'}>
-          <div id="container">
-                <div id="music"></div>
-                </div>
-                <div id="controls">
-          </div>
-          </div>
-        </div>
-        
-        <button onClick={this.handleGrading}>Grade</button>
+          <button onClick={this.handleGrading}>Grade</button>
         </div>
       </div>
       
