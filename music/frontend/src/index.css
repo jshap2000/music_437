@@ -46,6 +46,30 @@ code {
   margin: 5px;
 }
 
+#correct {
+  color: palegreen;
+}
+
+#correct-label {
+  background-color: palegreen;
+}
+
+#incorrect-label {
+  background-color: lightcoral;
+}
+
+#incorrect {
+  color: lightcoral;
+}
+
+#unplayed {
+  color: orange;
+}
+
+#unplayed-label {
+  background-color: orange;
+}
+
 .scroll {
   transition: transform 5s linear, opacity 0.5s ease-out, fill 0.2s linear;
 }
@@ -65,10 +89,123 @@ code {
 .grading {
   width: 70%;
   margin: auto;
+  text-align: center;
+  font-size: xx-large;
 }
 
 .playing {
   width: 50%;
   margin: auto;
   text-align: center;
+}
+
+#piano_container {
+  width: 70%;
+  margin: auto;
+}
+
+
+
+#options {
+  width:75%;
+  margin: auto;
+  text-align: center;
+  
+}
+
+
+/* Fixed sidenav, full height */
+.sidenav {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: orange;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  display: block;
+  border: none;
+  background: none;
+  width:75%;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+}
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+  color: #f1f1f1;
+}
+
+/* Main content */
+.main {
+  margin-left: 200px; /* Same as the width of the sidenav */
+  font-size: 20px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+  background-color: green;
+  color: white;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+  background-color: orange;
+  padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+#artist {
+  background-color: orange;
+}
+
+#tips {
+  background-color: greenyellow;
+}
+
+#signature {
+  background-color: lightcoral;
+}
+
+#options {
+  width: 250px;
+  margin-left: 50%;
+}
+
+#col1 {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+#col2 {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+#col3 {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+#button-grade {
+  padding-top: 30px;
+  
 }

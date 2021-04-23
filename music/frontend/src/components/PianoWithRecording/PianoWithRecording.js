@@ -119,13 +119,17 @@ class PianoWithRecording extends React.Component {
   }
 
   componentDidMount = () => {
-
+    try {
     navigator.requestMIDIAccess()
     .then(this.onMIDISuccess, onMIDIFailure);
+    } catch {
+      onMIDIFailure();
+    }
 
     
 
     function onMIDIFailure() {
+        alert("Could Not Access your midi Device. If you are on safari, switch to chrome. If you are on chrome but haven't plugged in your keyboard yet, please plug it in and reload the page")
         console.log('Could not access your MIDI devices.');
     }
 

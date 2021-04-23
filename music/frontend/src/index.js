@@ -12,6 +12,10 @@ import SoundfontProvider from './components/SoundfontProvider/SoundfontProvider.
 import PianoWithRecording from './components/PianoWithRecording/PianoWithRecording.js';
 import Select from 'react-select'
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import Card from "react-bootstrap/Card";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Container, Row, Col, Navbar, Nav, Form, FormControl} from 'react-bootstrap'
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
@@ -58,10 +62,12 @@ class App extends React.Component {
     title: "",
     grading: "",
     notes: "",
+    time_signature: "",
     preset:false,
     playing: false,
     interval: null,
     just_switched_song: false,
+    midi_present: true,
   };
 
   constructor(props) {
@@ -137,7 +143,7 @@ class App extends React.Component {
  
 
   handleOptionsChange(val){
-    this.setState({title: val.value, notes: val.notes, grading: val.grading, currentTime: 0, playing: false}, () => { 
+    this.setState({title: val.value, notes: val.notes, grading: val.grading, currentTime: 0, playing: false, time_signature: val.time_signature}, () => { 
       this.onClickClear();
       this.setState({playing: true});
       
@@ -404,8 +410,14 @@ afterSetStateFinished() {
     var incorrect_notes = []
     var unplayed_notes = []
     var final_note_dict = {}
+    var time_subtr;
+    if(this.state.midi_present == false) {
+      time_subtr = 5.433
+    } else {
+      time_subtr = 5.351
+    }
     for (let note of this.state.recording.events) {
-      let timestamp = (Math.round((note.time-5.11) * 4) / 4).toFixed(2);
+      let timestamp = (Math.round((note.time-time_subtr) * 4) / 4).toFixed(2);
       if(timestamp<-4) {}
       else if(note_dict[timestamp] && note_dict[timestamp].indexOf(note.midiNumber)!=-1) {
         note_dict[timestamp].splice(note_dict[timestamp].indexOf(note.midiNumber), 1)//note_dict[timestamp].remove(note.midiNumber);
@@ -764,18 +776,67 @@ afterSetStateFinished() {
 
     return (
       <div id="page">
-        <h1 className="header" >Piano Trainer Beta</h1>
-        <div id = 'grading' hidden='hidden'>
-          <button onClick={this.handleReturn}>Play Again</button>
-          Correct: <div id = 'correct'></div>
-          Incorrect: <div id = 'incorrect'></div>
-          Unplayed: <div id = 'unplayed'></div>
-          <div id ="grading-display" className="grading"></div>
+        <Navbar bg="light" variant="light">
+          <Navbar.Brand >Piano Demo</Navbar.Brand>
+          <Nav className="mr-auto">
+            <Nav.Link>Web Keyboard</Nav.Link>
+            <Nav.Link href="#features">Midi Keyboard</Nav.Link>
+          </Nav>
+          <div id='options'>
+            <Select id="options" options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
+          </div>
+  </Navbar>
+        <div className="grading" id = 'grading' hidden='hidden'>
+          Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span onClick={this.handleReturn}>here</span> to play again.
+          
+          <div id ="grading-display" ></div>
         </div>
         <div id = "playing-display" className="playing">
-        <div>
-          <Select options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
-        </div>
+       
+          
+        
+        <Container>
+          <Row>
+            <Col id='col1'>
+            <Card style={{ width: '18rem', height: '15rem' }}>
+            <Card.Body>
+              <Card.Title id = "artist">Artist</Card.Title>
+              <Card.Text>
+                Some quick example text to build on the card title and make up the bulk of
+                the card's content.
+              </Card.Text>
+              
+              </Card.Body>
+            </Card>
+            </Col>
+            <Col id='col2'>
+            <Card style={{ width: '18rem', height: '15rem' }}>
+            <Card.Body>
+              <Card.Title id = "tips" >Some Tips</Card.Title>
+              <Card.Text>
+                Make sure to count out loud. Take a deep breath before you start. You're going to do great!
+              </Card.Text>
+              
+              </Card.Body>
+            </Card>
+
+            </Col>
+            <Col id='col3'>
+            <Card style={{ width: '18rem', height: '15rem' }}>
+            <Card.Body>
+              <Card.Title id = "signature">Time Signature</Card.Title>
+              <Card.Text>
+                Some quick example text to build on the card title and make up the bulk of
+                the card's content.
+              </Card.Text>
+             
+              </Card.Body>
+            </Card>
+            </Col>
+          </Row>
+        </Container>
+      
+        
         <div>
           <div id={'exercise-container'}>
           <div id="container">
@@ -808,11 +869,9 @@ afterSetStateFinished() {
             )}
           />
         </div>
-        <div className="mt-5">
-        <div>{JSON.stringify(this.state.recording.events)}</div>
+        <div id='button-grade'>
+        <Button variant="success" onClick={this.handleGrading}>Grade</Button>{' '}
         </div>
-        
-          <button onClick={this.handleGrading}>Grade</button>
         </div>
       </div>
       
