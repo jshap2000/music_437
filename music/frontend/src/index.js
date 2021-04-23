@@ -130,6 +130,8 @@ class App extends React.Component {
     this.setState({selectOptions: options})
   }
 
+  
+
   handleOptionsChange(val){
     this.setState({title: val.value, notes: val.notes, grading: val.grading}, () => {
       document.addEventListener('keypress', (e) => {
@@ -401,7 +403,7 @@ afterSetStateFinished() {
     var unplayed_notes = []
     var final_note_dict = {}
     for (let note of this.state.recording.events) {
-      let timestamp = (Math.round((note.time-5.309) * 4) / 4).toFixed(2);
+      let timestamp = (Math.round((note.time-5.11) * 4) / 4).toFixed(2);
       if(timestamp<-4) {}
       else if(note_dict[timestamp] && note_dict[timestamp].indexOf(note.midiNumber)!=-1) {
         note_dict[timestamp].splice(note_dict[timestamp].indexOf(note.midiNumber), 1)//note_dict[timestamp].remove(note.midiNumber);

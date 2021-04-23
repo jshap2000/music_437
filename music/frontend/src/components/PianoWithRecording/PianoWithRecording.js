@@ -5,15 +5,25 @@ const DURATION_UNIT = 0.2;
 const DEFAULT_NOTE_DURATION = DURATION_UNIT;
 
 class PianoWithRecording extends React.Component {
-  static defaultProps = {
-    notesRecorded: false,
-  };
+    static defaultProps = {
+      notesRecorded: false,
+    };
 
-  state = {
-    keysDown: {},
-    noteDuration: DEFAULT_NOTE_DURATION,
-    timerStart: 0
-  };
+    constructor (props){
+      super(props);
+
+      this.state = {
+        keysDown: {},
+        noteDuration: DEFAULT_NOTE_DURATION,
+        timerStart: 0
+      };
+
+      this.componentDidMount = this.componentDidMount.bind(this);
+      
+
+    }
+
+
 
   onPlayNoteInput = midiNumber => {
     this.setState({
@@ -21,8 +31,11 @@ class PianoWithRecording extends React.Component {
     });
   };
 
+
   onStopNoteInput = (midiNumber, { prevActiveNotes }) => {
     if (this.state.notesRecorded === false) {
+      console.log("prev active notes")
+      console.log(prevActiveNotes)
       this.recordNotes(prevActiveNotes, this.state.noteDuration);
       this.setState({
         notesRecorded: true,
@@ -31,9 +44,10 @@ class PianoWithRecording extends React.Component {
     }
   };
 
+  
   recordNotes = (midiNumbers, duration) => {
     if (this.props.recording.mode !== 'RECORDING') {return;}
-
+    console.log(midiNumbers);
     const newEvents = midiNumbers.map(midiNumber => {
      
       // If the user hit clear, add notes from time: 0
@@ -72,6 +86,56 @@ class PianoWithRecording extends React.Component {
 
   toMiliseconds(dateTime) {return dateTime * 0.001;}
 
+  onMIDISuccess = (midiAccess) => {
+    this.toMiliseconds(Date.now())
+    for (var input of midiAccess.inputs.values()) {
+      input.onmidimessage = this.getMIDIMessage;
+    }
+  }
+
+  getMIDIMessage = (message) => {
+    var command = message.data[0];
+    var note = message.data[1];
+    var velocity = (message.data.length > 2) ? message.data[2] : 0; // a velocity value might not be included with a noteOff command
+    
+    switch (command) {
+        case 144: // noteOn
+            //if (velocity > 0) {
+              //  noteOn(note, velocity);
+            //} else {
+               // noteOff(note);
+            //}
+            //console.log("hey")
+            //this.ye("hey", "ho")
+            console.log(note);
+            this.props.playNote(note);
+            this.recordNotes([note],0.2)
+            break;
+            
+        case 128: // noteOff
+            //noteOff(note);
+            //console.log(note);
+            break;
+        // we could easily expand this switch statement to cover other types of commands such as controllers or sysex
+    }
+  }
+
+  componentDidMount = () => {
+
+    navigator.requestMIDIAccess()
+    .then(this.onMIDISuccess, onMIDIFailure);
+
+    
+
+    function onMIDIFailure() {
+        console.log('Could not access your MIDI devices.');
+    }
+
+    
+  }
+
+  
+
   render() {
     const {
       playNote,
@@ -94,7 +158,9 @@ class PianoWithRecording extends React.Component {
           activeNotes={activeNotes}
           {...pianoProps}
         />
+         
       </div>
+     
     );
   }
 }
