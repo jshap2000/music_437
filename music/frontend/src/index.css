@@ -47,7 +47,12 @@ code {
 }
 
 #correct {
+  font-weight: bold;
   color: palegreen;
+}
+
+#grading-text {
+  padding-top: 50px;
 }
 
 #correct-label {
@@ -59,10 +64,12 @@ code {
 }
 
 #incorrect {
+  font-weight: bold;
   color: lightcoral;
 }
 
 #unplayed {
+  font-weight: bold;
   color: orange;
 }
 
@@ -208,4 +215,12 @@ code {
 #button-grade {
   padding-top: 30px;
   
+}
+
+#here {
+  font-weight: bold;
+}
+
+#here:hover {
+  background-color: burlywood;
 }

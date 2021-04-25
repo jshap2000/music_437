@@ -67,7 +67,7 @@ class App extends React.Component {
     playing: false,
     interval: null,
     just_switched_song: false,
-    midi_present: true,
+    midi_present: false,
   };
 
   constructor(props) {
@@ -97,6 +97,7 @@ class App extends React.Component {
     document.getElementById('grading-display').innerHTML ="";
     document.getElementById('playing-display').hidden = "";
     document.getElementById('grading').hidden = "hidden";
+    document.getElementById('options').hidden = "";
     this.setState({playing:true});
   }
   
@@ -144,6 +145,7 @@ class App extends React.Component {
 
   handleOptionsChange(val){
     this.setState({title: val.value, notes: val.notes, grading: val.grading, currentTime: 0, playing: false, time_signature: val.time_signature}, () => { 
+      document.getElementById('')
       this.onClickClear();
       this.setState({playing: true});
       
@@ -216,7 +218,7 @@ afterSetStateFinished() {
 
     var bass_arr = [];
     var treble_arr= [];
-    for(var a = 0; a < end_time; a+=0.25) {
+    for(var a = 0; a <= end_time; a+=0.25) {
         var time_str = String(a);
         if(a%1==0) {
           time_str+=".0"
@@ -405,6 +407,9 @@ afterSetStateFinished() {
   }
 
   handleGrading = (e) => {
+    if(this.state.playing==false) {
+      return;
+    }
     var note_dict = JSON.parse((String(this.state.grading).replace(/'/g,'"').replace(/\.0/g,".0").replace(/\.5/g,".5"))); 
     let correct_notes = []
     var incorrect_notes = []
@@ -456,6 +461,7 @@ afterSetStateFinished() {
     clearInterval(this.state.interval);
     document.getElementById('music').innerHTML ="";
     document.getElementById('playing-display').hidden = "hidden";
+    document.getElementById('options').hidden = "hidden";
     document.getElementById('grading').hidden = "";
     this.gradingDisplay(final_note_dict)
   
@@ -513,7 +519,7 @@ afterSetStateFinished() {
       // var renderer = new Renderer(svgContainer, Renderer.Backends.SVG);
       // Create an SVG renderer and attach it to the DIV element named "boo".
     var context = renderer.getContext();
-    renderer.resize(1700, 5000);
+    renderer.resize(1700, Math.ceil(80*end_time/4));
     
     var i = 0;
     var a = 0;
@@ -522,8 +528,8 @@ afterSetStateFinished() {
     var d = -100;
     while(i < end_time) {
     if(i%16 == 0) {
-      b+=300;
-      d+=300;
+      b+=250;
+      d+=250;
       a = 0;
       c = 0;
     }
@@ -767,6 +773,13 @@ afterSetStateFinished() {
   }
   }
 
+  setWeb = () => {
+    this.setState({midi_present: false});
+  }
+
+  setMidi = () =>  {
+    this.setState({midi_present: true});
+  }
   
 
   render() {
@@ -779,16 +792,17 @@ afterSetStateFinished() {
         <Navbar bg="light" variant="light">
           <Navbar.Brand >Piano Demo</Navbar.Brand>
           <Nav className="mr-auto">
-            <Nav.Link>Web Keyboard</Nav.Link>
-            <Nav.Link href="#features">Midi Keyboard</Nav.Link>
+            <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
+            <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
+            <Nav.Link></Nav.Link>
           </Nav>
           <div id='options'>
             <Select id="options" options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
           </div>
   </Navbar>
         <div className="grading" id = 'grading' hidden='hidden'>
-          Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span onClick={this.handleReturn}>here</span> to play again.
-          
+          <div id='grading-text'>Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span id="here" onClick={this.handleReturn}>here</span> to play again.
+          </div>
           <div id ="grading-display" ></div>
         </div>
         <div id = "playing-display" className="playing">
@@ -798,19 +812,18 @@ afterSetStateFinished() {
         <Container>
           <Row>
             <Col id='col1'>
-            <Card style={{ width: '18rem', height: '15rem' }}>
+            <Card style={{ width: '18rem', height: '10rem' }}>
             <Card.Body>
               <Card.Title id = "artist">Artist</Card.Title>
               <Card.Text>
-                Some quick example text to build on the card title and make up the bulk of
-                the card's content.
+                The artist for this piece is Joni Mitchell.
               </Card.Text>
               
               </Card.Body>
             </Card>
             </Col>
             <Col id='col2'>
-            <Card style={{ width: '18rem', height: '15rem' }}>
+            <Card style={{ width: '18rem', height: '10rem' }}>
             <Card.Body>
               <Card.Title id = "tips" >Some Tips</Card.Title>
               <Card.Text>
@@ -822,12 +835,11 @@ afterSetStateFinished() {
 
             </Col>
             <Col id='col3'>
-            <Card style={{ width: '18rem', height: '15rem' }}>
+            <Card style={{ width: '18rem', height: '10rem' }}>
             <Card.Body>
               <Card.Title id = "signature">Time Signature</Card.Title>
               <Card.Text>
-                Some quick example text to build on the card title and make up the bulk of
-                the card's content.
+                The time signature for this piece is 4:4.
               </Card.Text>
              
               </Card.Body>
