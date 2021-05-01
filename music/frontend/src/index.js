@@ -74,7 +74,7 @@ class App extends React.Component {
     super(props);
     this.scheduledEvents = [];
   }
-  
+
   getRecordingEndTime = () => {
     if (this.state.recording.events.length === 0) {
       return 0;
@@ -100,7 +100,7 @@ class App extends React.Component {
     document.getElementById('options').hidden = "";
     this.setState({playing:true});
   }
-  
+
   onClickStop = () => {
     this.scheduledEvents.forEach(scheduledEvent => {
       clearTimeout(scheduledEvent);
@@ -109,7 +109,7 @@ class App extends React.Component {
       mode: 'RECORDING',
       currentEvents: [],
     });
-  }; 
+  };
 
   onClickClear = () => {
     this.onClickStop();
@@ -123,7 +123,7 @@ class App extends React.Component {
       currentTime: 0
     });
   };
-   
+
 
   componentWillMount() {
     this.getOptions()
@@ -141,23 +141,23 @@ class App extends React.Component {
     this.setState({selectOptions: options})
   }
 
- 
+
 
   handleOptionsChange(val){
-    this.setState({title: val.value, notes: val.notes, grading: val.grading, currentTime: 0, playing: false, time_signature: val.time_signature}, () => { 
+    this.setState({title: val.value, notes: val.notes, grading: val.grading, currentTime: 0, playing: false, time_signature: val.time_signature}, () => {
       document.getElementById('')
       this.onClickClear();
       this.setState({playing: true});
-      
+
     });
-    
+
   }
 
 afterSetStateFinished() {
     this.state.playing=true;
     var div = document.getElementById("music")
     var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
-      
+
       // var renderer = new Renderer(svgContainer, Renderer.Backends.SVG);
       // Create an SVG renderer and attach it to the DIV element named "boo".
 
@@ -168,15 +168,15 @@ afterSetStateFinished() {
       // in relation to time/rhythm, including StaveNote which we use here.
       // In real music, this allows VexFlow to align notes from multiple
       // voices with different rhythms horizontally. Here, it doesn't do much
-      // for us, since we'll be animating the horizontal placement of notes, 
+      // for us, since we'll be animating the horizontal placement of notes,
       // but we still need to add our notes to a tickContext so that they get
       // an x value and can be rendered.
       //
-      
 
-      
-      
-      
+
+
+
+
       //var note_dict = JSON.parse((String(this.state.notes).replace(/'/g,'"').replace(/\.0/g,".00").replace(/\.5/g,".50")));
       // If we create a voice, it will automatically apply a tickContext to our
       // notes, and space them relative to each other based on their duration &
@@ -222,8 +222,8 @@ afterSetStateFinished() {
         var time_str = String(a);
         if(a%1==0) {
           time_str+=".0"
-        } 
-        
+        }
+
       if(notes_dict[time_str]) {
         let treb_counter = 0;
         let bass_counter = 0;
@@ -246,10 +246,10 @@ afterSetStateFinished() {
 
       }
 
-      
+
     }
-    
-    
+
+
     let notes = notes_treble.map(([letter, acc, octave]) => {
     const note = new VF.StaveNote({
         clef: 'treble',
@@ -299,9 +299,9 @@ afterSetStateFinished() {
 
 
     // The tickContext.preFormat() call assigns x-values (and other
-    // formatting values) to notes. It must be called after we've 
+    // formatting values) to notes. It must be called after we've
     // created the notes and added them to the tickContext. Or, it
-    // can be called each time a note is added, if the number of 
+    // can be called each time a note is added, if the number of
     // notes needed is not known at the time of bootstrapping.
     //
     // To see what happens if you put it in the wrong place, try moving
@@ -319,21 +319,21 @@ afterSetStateFinished() {
     const visibleNoteGroups = [];
     // Add a note to the staff from the notes array (if there are any left).
     var counter = 0;
-    
+
     this.state.interval = setInterval(() => {
-      
-      
+
+
       for(var i = 0; i < treble_arr[counter]; i++) {
           var note = notes.shift();
           if (!note) return;
-          
+
           const group = context.openGroup();
           visibleNoteGroups.push(group);
           note.draw();
-      
-      
-      
-      
+
+
+
+
       context.closeGroup();
       group.classList.add('scroll');
       // Force a dom-refresh by asking for the group's bounding box. Why? Most
@@ -343,7 +343,7 @@ afterSetStateFinished() {
       // same time for optimization. However, if we allow that to happen,
       // then sometimes the note will immediately jump to its fully transformed
       // position -- because the transform will be applied before the class with
-      // its transition rule. 
+      // its transition rule.
       const box = group.getBoundingClientRect();
       group.classList.add('scrolling');
 
@@ -362,14 +362,14 @@ afterSetStateFinished() {
       for(var i = 0; i < bass_arr[counter]; i++) {
         var note = notes3.shift();
         if (!note) return;
-        
+
         const group = context.openGroup();
         visibleNoteGroups.push(group);
         note.draw();
-    
-    
-    
-    
+
+
+
+
     context.closeGroup();
     group.classList.add('scroll');
     // Force a dom-refresh by asking for the group's bounding box. Why? Most
@@ -379,7 +379,7 @@ afterSetStateFinished() {
     // same time for optimization. However, if we allow that to happen,
     // then sometimes the note will immediately jump to its fully transformed
     // position -- because the transform will be applied before the class with
-    // its transition rule. 
+    // its transition rule.
     const box = group.getBoundingClientRect();
     group.classList.add('scrolling');
 
@@ -393,24 +393,24 @@ afterSetStateFinished() {
 
     counter+=1;
 
-    
+
 
 
 
       }, 250);
 
-        
 
-    
-   
-      
+
+
+
+
   }
 
   handleGrading = (e) => {
     if(this.state.playing==false) {
       return;
     }
-    var note_dict = JSON.parse((String(this.state.grading).replace(/'/g,'"').replace(/\.0/g,".0").replace(/\.5/g,".5"))); 
+    var note_dict = JSON.parse((String(this.state.grading).replace(/'/g,'"').replace(/\.0/g,".0").replace(/\.5/g,".5")));
     let correct_notes = []
     var incorrect_notes = []
     var unplayed_notes = []
@@ -464,8 +464,8 @@ afterSetStateFinished() {
     document.getElementById('options').hidden = "hidden";
     document.getElementById('grading').hidden = "";
     this.gradingDisplay(final_note_dict)
-  
-  
+
+
   };
 
   getOctave() {
@@ -481,8 +481,8 @@ afterSetStateFinished() {
     return dict;
   }
 
-  
-  
+
+
 
 
   gradingDisplay(final_note_dict) {
@@ -508,19 +508,19 @@ afterSetStateFinished() {
       end_time = Math.ceil(parseFloat(key)/4)*4
     }
 
-    
-   
+
+
     var octaves = this.getOctave()
-    
+
     //console.log(final_note_dict);
     var div = document.getElementById("grading-display")
     var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
-      
+
       // var renderer = new Renderer(svgContainer, Renderer.Backends.SVG);
       // Create an SVG renderer and attach it to the DIV element named "boo".
     var context = renderer.getContext();
     renderer.resize(1700, Math.ceil(80*end_time/4));
-    
+
     var i = 0;
     var a = 0;
     var b = -200;
@@ -545,17 +545,17 @@ afterSetStateFinished() {
     } else {
       var stave2 = new VF.Stave(c, d, 400)
     }
-    
+
     a+=400;
     c+=400;
-   
-    
-    
-    
 
-    
+
+
+
+
+
     // Connect it to the rendering context and draw!
-    
+
     var notes = []
     var t = i;
     while(t<i+4) {
@@ -567,25 +567,25 @@ afterSetStateFinished() {
         time_str+="0"
       }
       if(final_note_dict[time_str]) {
-        
+
         var keys = [];
         var status_arr = []
         var sharp_arr = []
         let arr = final_note_dict[time_str];
-        
-        
+
+
         var min_midi_number;
         var whole_note;
         var midi_counter;
-        
+
         var remainders = []
         while(arr.length > 0) {
-          
+
           if(arr[0]['midiNumber']<60) {
             remainders.push(arr[0])
             arr.splice(0, 1)
           } else {
-           
+
           min_midi_number= arr[0]['midiNumber'];
           whole_note = arr[0];
           midi_counter= 0;
@@ -605,31 +605,31 @@ afterSetStateFinished() {
         }
         }
         //arr = remainders
-        
+
         if(keys.length>0) {
-          
+
           notes.push([{ keys: keys, duration: "16" }, status_arr, sharp_arr])
         } else {
           notes.push([{keys:["r/16"], duration: "16r" }, 'rest']);
         }
         final_note_dict[time_str] = remainders
-        
+
       } else {
         notes.push([{keys:["r/16"], duration: "16r" }, 'rest']);
       }
       t+=.25;
     }
 
-    
-    
+
+
     var stave_notes = []
     for(let note of notes) {
-        
+
         var stave_note = new VF.StaveNote(note[0]);
         if(note[1]!= 'rest') {
           var counting = 0
           for(let status of note[1]) {
-           
+
             if(status == 'unplayed') {
               stave_note.setKeyStyle(counting, { fillStyle: 'tomato', strokeStyle: 'tomato' });
             }
@@ -646,17 +646,17 @@ afterSetStateFinished() {
             if(sharp=="#") {
               stave_note.addAccidental(counting, new VF.Accidental("#"))
             }
-            
+
             counting++;
-            
+
           }
         }
         stave_notes.push(stave_note);
     }
-    
+
 
     VF.Formatter.FormatAndDraw(context, stave, stave_notes, false);
-    
+
     stave.setContext(context).draw();
 
 
@@ -671,7 +671,7 @@ afterSetStateFinished() {
 
 
 
-    /* base clef */ 
+    /* base clef */
 
     notes = []
     t = i;
@@ -688,8 +688,8 @@ afterSetStateFinished() {
         var status_arr = []
         var sharp_arr = []
         let arr = final_note_dict[time_str];
-        
-        
+
+
         var min_midi_number;
         var whole_note;
         var midi_counter;
@@ -721,25 +721,25 @@ afterSetStateFinished() {
         } else {
           notes.push([{clef: "bass", keys:["r/16"], duration: "16r" }, 'rest']);
         }
-        
-       
+
+
       } else {
         notes.push([{clef: "bass", keys:["r/16"], duration: "16r" }, 'rest']);
       }
       t+=.25;
     }
 
-   
-  
-    
+
+
+
     stave_notes = []
     for(let note of notes) {
         var stave_note = new VF.StaveNote(note[0]);
         if(note[1]!= 'rest') {
           var counting = 0
-          
+
           for(let status of note[1]) {
-            
+
             if(status == 'unplayed') {
               stave_note.setKeyStyle(counting, { fillStyle: 'tomato', strokeStyle: 'tomato' });
             }
@@ -755,21 +755,21 @@ afterSetStateFinished() {
           for(let sharp of note[2]) {
             if(sharp=="#") {
               stave_note.addAccidental(counting, new VF.Accidental("#"))
-              
+
             }
-            
+
             counting++;
-            
+
           }
         }
         stave_notes.push(stave_note);
     }
-    
+
     VF.Formatter.FormatAndDraw(context, stave2, stave_notes, false);
-    
+
     stave2.setContext(context).draw();
     i = t;
-  
+
   }
   }
 
@@ -780,35 +780,39 @@ afterSetStateFinished() {
   setMidi = () =>  {
     this.setState({midi_present: true});
   }
-  
+
 
   render() {
-    
+
     // And get a drawing context:
-    
+
 
     return (
       <div id="page">
         <Navbar bg="light" variant="light">
-          <Navbar.Brand >Piano Demo</Navbar.Brand>
+          <img id="icon1" src="MusicNote.png" alt="note icon"/>
+          <Navbar.Brand >Piano Practice</Navbar.Brand>
           <Nav className="mr-auto">
+            <img id="icon2" src="webkeyboard.png" alt="midi icon"/>
             <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
+            <img id="icon3" src="midikeyboard.png" alt="webkey icon"/>
             <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
             <Nav.Link></Nav.Link>
           </Nav>
+          <div id="op">
+          <img id="icon4" src="search.png" alt="search icon"/>
           <div id='options'>
             <Select id="options" options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
-          </div>
-  </Navbar>
+          </div></div>
+        </Navbar>
+
         <div className="grading" id = 'grading' hidden='hidden'>
-          <div id='grading-text'>Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span id="here" onClick={this.handleReturn}>here</span> to play again.
-          </div>
+          <div id='grading-text'>Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span id="here" onClick={this.handleReturn}>here</span> to play again.</div>
           <div id ="grading-display" ></div>
         </div>
+
         <div id = "playing-display" className="playing">
-       
-          
-        
+
         <Container>
           <Row>
             <Col id='col1'>
@@ -818,7 +822,7 @@ afterSetStateFinished() {
               <Card.Text>
                 The artist for this piece is Joni Mitchell.
               </Card.Text>
-              
+
               </Card.Body>
             </Card>
             </Col>
@@ -829,7 +833,7 @@ afterSetStateFinished() {
               <Card.Text>
                 Make sure to count out loud. Take a deep breath before you start. You're going to do great!
               </Card.Text>
-              
+
               </Card.Body>
             </Card>
 
@@ -841,14 +845,14 @@ afterSetStateFinished() {
               <Card.Text>
                 The time signature for this piece is 4:4.
               </Card.Text>
-             
+
               </Card.Body>
             </Card>
             </Col>
           </Row>
         </Container>
-      
-        
+
+
         <div>
           <div id={'exercise-container'}>
           <div id="container">
@@ -858,7 +862,7 @@ afterSetStateFinished() {
           </div>
           </div>
         </div>
-          
+
         {/* keyboard */}
         <div className="mt-5" id='piano_container'>
           <SoundfontProvider
@@ -886,7 +890,7 @@ afterSetStateFinished() {
         </div>
         </div>
       </div>
-      
+
     );
   }
 }

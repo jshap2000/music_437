@@ -20,7 +20,28 @@ code {
     monospace;
 }
 
-
+#icon1{
+  margin-right: 5px;
+  height:30px;
+  width:30px;
+}
+#icon3{
+  margin-top:5px;
+  margin-left:10px;
+  height:30px;
+  width:40px;
+}
+#icon2{
+  margin-top:2px;
+  margin-left:15px;
+  height:30px;
+  width:40px;
+}
+#icon4{
+  margin-top:5px;
+  height:25px;
+  width:40px;
+}
 
 #container {
   width: 550px;
@@ -29,7 +50,6 @@ code {
   border: 1px solid deeppink;
   width: 50%;
   margin: auto;
-  
 }
 
 #container > div {
@@ -111,13 +131,16 @@ code {
   margin: auto;
 }
 
-
-
-#options {
-  width:75%;
-  margin: auto;
+#icon4{
+  margin-right: -290px;
+}
+#op {
+  margin-right: 0px;
+  display: flex;
   text-align: center;
-  
+}
+#options{
+  margin-right: 360px;
 }
 
 
@@ -214,7 +237,7 @@ code {
 
 #button-grade {
   padding-top: 30px;
-  
+
 }
 
 #here {
