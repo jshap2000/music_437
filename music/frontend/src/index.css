@@ -7,6 +7,7 @@
 }
 
 body {
+  background-color: rgb(229, 229, 204) !important;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -18,6 +19,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+#page{
+  background-color: rgb(229, 229, 204);
 }
 
 #icon1{
@@ -43,6 +48,44 @@ code {
   width:40px;
 }
 
+#bg{
+  width: 100%;
+  height: 900px;
+}
+
+#banner{
+  position: relative;
+}
+#exploreBtn{
+  margin: 0;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 150px;
+  border: 0;
+  border-radius: 15px;
+  font-size: 15pt;
+}
+#slogan{
+  margin: 0;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 50pt;
+}
+
+#navbar{
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  background-color: rgba(176,176,176,0.8);
+}
+
 #container {
   width: 550px;
   height: 200px;
@@ -50,6 +93,7 @@ code {
   border: 1px solid deeppink;
   width: 50%;
   margin: auto;
+  background-color: white;
 }
 
 #container > div {
@@ -127,8 +171,8 @@ code {
 }
 
 #piano_container {
-  width: 70%;
   margin: auto;
+  width: 85%;
 }
 
 #icon4{
@@ -246,4 +290,44 @@ code {
 
 #here:hover {
   background-color: burlywood;
+}
+
+.column {
+  float: left;
+  width: 18%;
+  padding: 10px;
+  margin-left: 40px;
+  margin-right: 40px;
+  border: 1px solid #D8D8D8;
+  height:200px;
+  background-color: white;
+}
+
+.row{
+  margin-left: 0px !important;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+#jumpHere{
+  margin-top: 150px;
+}
+
+#artist{
+  font-size: 18pt;
+  margin-top: -30px;
+}
+#tips{
+  font-size: 18pt;
+  margin-top: -30px;
+}
+#signature{
+  font-size: 18pt;
+  margin-top: -30px;
+}
+
+#gradeBtn{
+  margin-bottom: 20px;
 }

@@ -468,6 +468,14 @@ afterSetStateFinished() {
 
   };
 
+
+
+  scrollToView() {
+    console.log("hereeeee");
+    document.getElementById("jumpHere").scrollIntoView({behavior: 'smooth'});
+  }
+
+
   getOctave() {
     var notes = "C C#D D#E F F#G G#A A#B ";
     var octv;
@@ -781,7 +789,6 @@ afterSetStateFinished() {
     this.setState({midi_present: true});
   }
 
-
   render() {
 
     // And get a drawing context:
@@ -789,7 +796,7 @@ afterSetStateFinished() {
 
     return (
       <div id="page">
-        <Navbar bg="light" variant="light">
+        <Navbar id="navbar">
           <img id="icon1" src="MusicNote.png" alt="note icon"/>
           <Navbar.Brand >Piano Practice</Navbar.Brand>
           <Nav className="mr-auto">
@@ -806,51 +813,35 @@ afterSetStateFinished() {
           </div></div>
         </Navbar>
 
+        <div id="banner">
+          <img id="bg" src="piano.jpg" alt="piano banner"/>
+          <p id="slogan">A new way to practice.</p>
+          <button id="exploreBtn" onClick={this.scrollToView}>Explore</button>
+        </div>
+
+        <div id="jumpHere"></div>
+
         <div className="grading" id = 'grading' hidden='hidden'>
           <div id='grading-text'>Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span id="here" onClick={this.handleReturn}>here</span> to play again.</div>
           <div id ="grading-display" ></div>
         </div>
 
+        <div class="row">
+          <div class="column" id="col1">
+            <h2 id="artist">Artist</h2>
+            <p>The artist for this piece is Joni Mitchell.</p>
+          </div>
+          <div class="column" id="col2">
+            <h2 id="tips">Some Tips</h2>
+            <p>Make sure to count out loud. Take a deep breath before you start. You're going to do great!</p>
+          </div>
+          <div class="column" id="col3">
+            <h2 id="signature">Time Signature</h2>
+            <p>The time signature for this piece is 4:4.</p>
+          </div>
+        </div>
+
         <div id = "playing-display" className="playing">
-
-        <Container>
-          <Row>
-            <Col id='col1'>
-            <Card style={{ width: '18rem', height: '10rem' }}>
-            <Card.Body>
-              <Card.Title id = "artist">Artist</Card.Title>
-              <Card.Text>
-                The artist for this piece is Joni Mitchell.
-              </Card.Text>
-
-              </Card.Body>
-            </Card>
-            </Col>
-            <Col id='col2'>
-            <Card style={{ width: '18rem', height: '10rem' }}>
-            <Card.Body>
-              <Card.Title id = "tips" >Some Tips</Card.Title>
-              <Card.Text>
-                Make sure to count out loud. Take a deep breath before you start. You're going to do great!
-              </Card.Text>
-
-              </Card.Body>
-            </Card>
-
-            </Col>
-            <Col id='col3'>
-            <Card style={{ width: '18rem', height: '10rem' }}>
-            <Card.Body>
-              <Card.Title id = "signature">Time Signature</Card.Title>
-              <Card.Text>
-                The time signature for this piece is 4:4.
-              </Card.Text>
-
-              </Card.Body>
-            </Card>
-            </Col>
-          </Row>
-        </Container>
 
 
         <div>
@@ -886,7 +877,7 @@ afterSetStateFinished() {
           />
         </div>
         <div id='button-grade'>
-        <Button variant="success" onClick={this.handleGrading}>Grade</Button>{' '}
+        <Button id="gradeBtn" variant="success" onClick={this.handleGrading}>Grade</Button>{' '}
         </div>
         </div>
       </div>
