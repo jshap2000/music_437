@@ -20,9 +20,6 @@ axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
 
-
-
-
 const VF = Vex.Flow;
 
 const {
@@ -33,7 +30,6 @@ const {
     Renderer,
     EasyScore,
 } = Vex.Flow;
-
 
 // webkitAudioContext fallback needed to support Safari
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -68,6 +64,9 @@ class App extends React.Component {
     interval: null,
     just_switched_song: false,
     midi_present: false,
+    isUploadFormActive: false,
+    uploadTitle: "",
+    uploadFile: ""
   };
 
   constructor(props) {
@@ -404,6 +403,41 @@ afterSetStateFinished() {
     
    
       
+  }
+
+  handleShowUploadForm = () => {
+    this.setState(({ isUploadFormActive }) => (
+      { isUploadFormActive: !isUploadFormActive }));
+  }
+
+  handleOnChange = (e) => {
+    let nam = e.target.name;
+    let val = e.target.value;
+    this.setState({[nam]: val});
+  }
+
+  handleOnFileUpload = (e) => {
+    let nam = e.target.name;
+    let val = e.target.files;
+    this.setState({[nam]: val[0]});
+  }
+
+  handleUpload = (e) => {
+    e.preventDefault(); 
+    console.log("Uploading File...");
+    let formData = new FormData();
+    formData.append('title', this.state.uploadTitle);
+    formData.append('file', this.state.uploadFile, this.state.uploadFile.name);
+    // const data = {
+    //   title: this.state.uploadTitle,
+    //   midi_file: this.state.uploadFile
+    // }  
+    let url = 'http://localhost:8000/playable_pieces/';
+    axios
+      .post('/user_pieces/', formData, {
+        headers: { 'content-type': 'multipart/form-data'}})
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   }
 
   handleGrading = (e) => {
@@ -781,7 +815,6 @@ afterSetStateFinished() {
     this.setState({midi_present: true});
   }
   
-
   render() {
     
     // And get a drawing context:
@@ -794,12 +827,13 @@ afterSetStateFinished() {
           <Nav className="mr-auto">
             <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
             <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
+            <Nav.Link onClick={this.handleShowUploadForm}>Upload Midi</Nav.Link>
             <Nav.Link></Nav.Link>
           </Nav>
           <div id='options'>
             <Select id="options" options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
           </div>
-  </Navbar>
+        </Navbar>
         <div className="grading" id = 'grading' hidden='hidden'>
           <div id='grading-text'>Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span id="here" onClick={this.handleReturn}>here</span> to play again.
           </div>
@@ -807,7 +841,17 @@ afterSetStateFinished() {
         </div>
         <div id = "playing-display" className="playing">
        
-          
+
+        {this.state.isUploadFormActive ? <form>
+        <p>Song Title</p>
+        <input name='uploadTitle' type="text" onChange={this.handleOnChange}/>
+        <p>Midi File</p>
+        <input id='fileInput' name='uploadFile' type='file' onChange={this.handleOnFileUpload}/>
+        <div id='button-upload'>
+              <Button onClick={this.handleUpload}>Upload</Button>
+            </div>
+       </form> : null }
+        
         
         <Container>
           <Row>
