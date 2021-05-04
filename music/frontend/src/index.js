@@ -128,7 +128,7 @@ class App extends React.Component {
     this.getOptions()
   }
 
-  async getOptions() {
+  getOptions = async() => {
     const res = await axios.get('/playable_pieces');
     const data = res.data.results;
     const options = data.map(d => ({
@@ -827,8 +827,7 @@ afterSetStateFinished() {
           <Nav className="mr-auto">
             <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
             <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
-            <Nav.Link onClick={this.handleShowUploadForm}>Upload Midi</Nav.Link>
-            <Nav.Link></Nav.Link>
+            
           </Nav>
           <div id='options'>
             <Select id="options" options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
@@ -858,9 +857,9 @@ afterSetStateFinished() {
             <Col id='col1'>
             <Card style={{ width: '18rem', height: '10rem' }}>
             <Card.Body>
-              <Card.Title id = "artist">Artist</Card.Title>
+              <Card.Title id = "artist">Tempo</Card.Title>
               <Card.Text>
-                The artist for this piece is Joni Mitchell.
+                The tempo for this piece is 1 second/quarter note.
               </Card.Text>
               
               </Card.Body>
@@ -881,9 +880,11 @@ afterSetStateFinished() {
             <Col id='col3'>
             <Card style={{ width: '18rem', height: '10rem' }}>
             <Card.Body>
-              <Card.Title id = "signature">Time Signature</Card.Title>
+              <Card.Title id = "signature">Upload Your Own Midi File</Card.Title>
               <Card.Text>
-                The time signature for this piece is 4:4.
+                You can upload your own midi file by clicking right <MusicUpload
+                  options={this.getOptions}>
+              </MusicUpload>.
               </Card.Text>
              
               </Card.Body>
@@ -919,7 +920,6 @@ afterSetStateFinished() {
                 playNote={playNote}
                 stopNote={stopNote}
                 disabled={isLoading}
-                keyboardShortcuts={keyboardShortcuts}
                 timerOn={this.state.timerOn}
               />
             )}

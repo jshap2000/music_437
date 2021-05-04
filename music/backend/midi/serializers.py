@@ -3,6 +3,7 @@ from .models import UserPiece, PlayablePiece
 from rest_framework import serializers
 
 
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
@@ -13,12 +14,12 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         model = Group
         fields = ['url', 'name']
 
-class UserPieceSerializer(serializers.HyperlinkedModelSerializer):
+class UserPieceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPiece
         fields = ['title', 'notes']
 
-class PlayablePieceSerializer(serializers.HyperlinkedModelSerializer):
+class PlayablePieceSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayablePiece
         fields = ['title', 'midi_file', 'time_signature', 'time_per_note', 'grading', 'notes']
