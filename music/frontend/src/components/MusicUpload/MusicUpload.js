@@ -1,5 +1,4 @@
 import React from 'react';
-import Select from 'react-select'
 import axios from 'axios';
 import './MusicUpload.css';
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
@@ -13,11 +12,6 @@ export default class MusicUpload extends React.Component {
       distance: 0
     }
   
-
-
-  
-
-
   handleMidiChange = (e) => {
     this.setState({
       midi: e.target.files[0]
@@ -73,7 +67,6 @@ export default class MusicUpload extends React.Component {
         <div className="form-popup" id="myForm">
           <form action="" className="form-container" onSubmit={this.handleSubmit}>
             
-
             <label htmlFor="title"><b>Title</b></label>
             <input type="text" id="title" placeholder="Enter Title" onChange={this.handleTitleChange} required></input>
             
@@ -81,15 +74,15 @@ export default class MusicUpload extends React.Component {
             <input type="file" id="midi" onChange={this.handleMidiChange} required></input>
 
             <label htmlFor="space_between"><b>Time Between First Notes</b></label>
-            <input type="number" step="0.25" placeholder="Enter Time" id="space_between" onChange={this.handleDistanceChange} required></input>
+            <input type="number" step="0.25" placeholder="Enter Time" id="space_between" onChange={this.handleDistanceChange} required/>
 
             <button type="submit" className="btn">Save</button>
             <button type="button" className="btn cancel" onClick={this.closeForm}>Close</button>
+
           </form>
         </div>
 
       </div>
-      
     )
   }
 }
