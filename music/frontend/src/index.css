@@ -170,6 +170,12 @@ code {
   text-align: center;
 }
 
+#uploading_midi {
+  margin-top: 8px;
+  margin-left:10px;
+  color: grey;
+}
+
 #piano_container {
   margin: auto;
   width: 85%;

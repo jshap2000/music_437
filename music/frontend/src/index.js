@@ -800,8 +800,8 @@ afterSetStateFinished() {
             <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
             <img id="icon3" src="midikeyboard.png" alt="webkey icon"/>
             <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
-            <Nav.Link><MusicUpload options={this.getOptions}> </MusicUpload> </Nav.Link>
-            <Nav.Link onClick={this.handleShowUploadForm}>Upload Midi v2</Nav.Link>
+            <div id='uploading_midi'><MusicUpload options={this.getOptions}> </MusicUpload> </div>
+           
           </Nav>
           <div id="op">
           <img id="icon4" src="search.png" alt="search icon"/>
