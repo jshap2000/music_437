@@ -75,7 +75,7 @@ class App extends React.Component {
     super(props);
     this.scheduledEvents = [];
   }
-  
+
   getRecordingEndTime = () => {
     if (this.state.recording.events.length === 0) {
       return 0;
@@ -101,7 +101,7 @@ class App extends React.Component {
     document.getElementById('options').hidden = "";
     this.setState({playing:true});
   }
-  
+
   onClickStop = () => {
     this.scheduledEvents.forEach(scheduledEvent => {
       clearTimeout(scheduledEvent);
@@ -110,7 +110,7 @@ class App extends React.Component {
       mode: 'RECORDING',
       currentEvents: [],
     });
-  }; 
+  };
 
   onClickClear = () => {
     this.onClickStop();
@@ -167,7 +167,7 @@ afterSetStateFinished() {
       // in relation to time/rhythm, including StaveNote which we use here.
       // In real music, this allows VexFlow to align notes from multiple
       // voices with different rhythms horizontally. Here, it doesn't do much
-      // for us, since we'll be animating the horizontal placement of notes, 
+      // for us, since we'll be animating the horizontal placement of notes,
       // but we still need to add our notes to a tickContext so that they get
       // an x value and can be rendered.
       //
@@ -299,9 +299,9 @@ afterSetStateFinished() {
 
 
     // The tickContext.preFormat() call assigns x-values (and other
-    // formatting values) to notes. It must be called after we've 
+    // formatting values) to notes. It must be called after we've
     // created the notes and added them to the tickContext. Or, it
-    // can be called each time a note is added, if the number of 
+    // can be called each time a note is added, if the number of
     // notes needed is not known at the time of bootstrapping.
     //
     // To see what happens if you put it in the wrong place, try moving
@@ -319,7 +319,7 @@ afterSetStateFinished() {
     const visibleNoteGroups = [];
     // Add a note to the staff from the notes array (if there are any left).
     var counter = 0;
-    
+
     this.state.interval = setInterval(() => {
       for(var i = 0; i < treble_arr[counter]; i++) {
         var note = notes.shift();
@@ -367,7 +367,7 @@ afterSetStateFinished() {
       // same time for optimization. However, if we allow that to happen,
       // then sometimes the note will immediately jump to its fully transformed
       // position -- because the transform will be applied before the class with
-      // its transition rule. 
+      // its transition rule.
       const box = group.getBoundingClientRect();
       group.classList.add('scrolling');
 
@@ -481,6 +481,14 @@ afterSetStateFinished() {
     this.gradingDisplay(final_note_dict)
   };
 
+
+
+  scrollToView() {
+    console.log("hereeeee");
+    document.getElementById("jumpHere").scrollIntoView({behavior: 'smooth'});
+  }
+
+
   getOctave() {
     var notes = "C C#D D#E F F#G G#A A#B ";
     var octv;
@@ -526,7 +534,7 @@ afterSetStateFinished() {
       
     var context = renderer.getContext();
     renderer.resize(1700, Math.ceil(80*end_time/4));
-    
+
     var i = 0;
     var a = 0;
     var b = -200;
@@ -575,16 +583,16 @@ afterSetStateFinished() {
         var min_midi_number;
         var whole_note;
         var midi_counter;
-        
+
         var remainders = []
 
         while(arr.length > 0) {
-          
+
           if(arr[0]['midiNumber']<60) {
             remainders.push(arr[0])
             arr.splice(0, 1)
           } else {
-           
+
           min_midi_number= arr[0]['midiNumber'];
           whole_note = arr[0];
           midi_counter= 0;
@@ -655,7 +663,7 @@ afterSetStateFinished() {
     }
     
     VF.Formatter.FormatAndDraw(context, stave, stave_notes, false);
-    
+
     stave.setContext(context).draw();
 
     /* base clef notes */ 
@@ -720,8 +728,8 @@ afterSetStateFinished() {
         } else {
           notes.push([{clef: "bass", keys:["r/16"], duration: "16r" }, 'rest']);
         }
-        
-       
+
+
       } else {
         notes.push([{clef: "bass", keys:["r/16"], duration: "16r" }, 'rest']);
       }
@@ -734,7 +742,7 @@ afterSetStateFinished() {
         var stave_note = new VF.StaveNote(note[0]);
         if(note[1] !== 'rest') {
           var counting = 0
-          
+
           for(let status of note[1]) {
             
             if(status === 'unplayed') {
@@ -761,9 +769,9 @@ afterSetStateFinished() {
         
         stave_notes.push(stave_note);
     }
-    
+
     VF.Formatter.FormatAndDraw(context, stave2, stave_notes, false);
-    
+
     stave2.setContext(context).draw();
     i = t;
     }
@@ -776,114 +784,94 @@ afterSetStateFinished() {
   setMidi = () =>  {
     this.setState({midi_present: true});
   }
-  
+
   render() {
-    
+
+    // And get a drawing context:
+
+
     return (
       <div id="page">
-        <Navbar bg="light" variant="light">
-          <Navbar.Brand >Piano Demo</Navbar.Brand>
-
+        <Navbar id="navbar" bg="light" variant="light">
+          <img id="icon1" src="MusicNote.png" alt="note icon"/>
+          <Navbar.Brand >Piano Practice</Navbar.Brand>
           <Nav className="mr-auto">
+            <img id="icon2" src="webkeyboard.png" alt="midi icon"/>
             <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
+            <img id="icon3" src="midikeyboard.png" alt="webkey icon"/>
             <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
             <Nav.Link><MusicUpload options={this.getOptions}> </MusicUpload> </Nav.Link>
             <Nav.Link onClick={this.handleShowUploadForm}>Upload Midi v2</Nav.Link>
           </Nav>
+          <div id="op">
+          <img id="icon4" src="search.png" alt="search icon"/>
           <div id='options'>
             <Select id="options" options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
-          </div>
+          </div></div>
         </Navbar>
 
-        <div className="grading" id = 'grading' hidden='hidden'>
-          <div id='grading-text'>Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span id="here" onClick={this.handleReturn}>here</span> to play again.
-          </div>
+        <div id="banner">
+          <img id="bg" src="piano.jpg" alt="piano banner"/>
+          <p id="slogan">A new way to practice.</p>
+          <button id="exploreBtn" onClick={this.scrollToView}>Explore</button>
+        </div>
 
+        <div id="jumpHere"></div>
+
+        <div className="grading" id = 'grading' hidden='hidden'>
+          <div id='grading-text'>Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span id="here" onClick={this.handleReturn}>here</span> to play again.</div>
           <div id ="grading-display" ></div>
         </div>
 
-        <div id = "playing-display" className="playing">
-        
-        <Container>
-          <Row>
-            <Col id='col1'>
-              <Card style={{ width: '18rem', height: '10rem' }}>
-                <Card.Body>
-
-                <Card.Title id = "artist">Tempo</Card.Title>
-
-                <Card.Text>
-                The tempo for this piece is 1 second/quarter note.
-                </Card.Text>
-              
-                </Card.Body>
-              </Card>
-            </Col>
-
-            <Col id='col2'>
-              <Card style={{ width: '18rem', height: '10rem' }}>
-                <Card.Body>
-                
-                <Card.Title id = "tips" >Some Tips</Card.Title>
-
-                <Card.Text>
-                  Make sure to count out loud. Take a deep breath before you start. You're going to do great!
-                </Card.Text>
-              
-                </Card.Body>
-              </Card>
-            </Col>
-
-            <Col id='col3'>
-              <Card style={{ width: '18rem', height: '10rem' }}>
-                <Card.Body>
-                
-                <Card.Title id = "signature">Upload Your Own Midi File</Card.Title>
-
-                <Card.Text>
-                You can upload your own midi file by clicking right 
-
-                  <MusicUpload options={this.getOptions}></MusicUpload>
-
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      
-        <div id={'exercise-container'}>
-          <div id="container">
-                <div id="music"></div>
-                </div>
-                <div id="controls">
+        <div class="row">
+          <div class="column" id="col1">
+            <h2 id="artist">Artist</h2>
+            <p>The artist for this piece is Joni Mitchell.</p>
+          </div>
+          <div class="column" id="col2">
+            <h2 id="tips">Some Tips</h2>
+            <p>Make sure to count out loud. Take a deep breath before you start. You're going to do great!</p>
+          </div>
+          <div class="column" id="col3">
+            <h2 id="signature">Time Signature</h2>
+            <p>The time signature for this piece is 4:4.</p>
           </div>
         </div>
-          
-        {/* keyboard */}
-        <div className="mt-5" id='piano_container'>
-          <SoundfontProvider
-            instrumentName="acoustic_grand_piano"
-            audioContext={audioContext}
-            hostname={soundfontHostname}
-            render={({ isLoading, playNote, stopNote }) => (
-              <PianoWithRecording
-                timerStart={this.state.timerStart}
-                recording={this.state.recording}
-                setRecording={this.setRecording}
-                noteRange={noteRange}
-                width={700}
-                playNote={playNote}
-                stopNote={stopNote}
-                disabled={isLoading}
-                timerOn={this.state.timerOn}
-              />
-            )}
-          />
-        </div>
-        <div id='button-grade'>
-        <Button variant="success" onClick={this.handleGrading}>Grade</Button>{' '}
-        </div>
+
+        <div id = "playing-display" className="playing"></div>
+
+        <div>
+          <div id={'exercise-container'}>
+            <div id="container">
+              <div id="music"></div>
+            </div>
+              <div id="controls"></div>
+          </div>
+
+              {/* keyboard */}
+              <div className="mt-5" id='piano_container'>
+                <SoundfontProvider
+                  instrumentName="acoustic_grand_piano"
+                  audioContext={audioContext}
+                  hostname={soundfontHostname}
+                  render={({ isLoading, playNote, stopNote }) => (
+                    <PianoWithRecording
+                      timerStart={this.state.timerStart}
+                      recording={this.state.recording}
+                      setRecording={this.setRecording}
+                      noteRange={noteRange}
+                      width={700}
+                      playNote={playNote}
+                      stopNote={stopNote}
+                      disabled={isLoading}
+                      timerOn={this.state.timerOn}
+                    />
+                  )}
+                />
+              </div>
+              <div id='button-grade'>
+                <Button id="gradeBtn" variant="success" onClick={this.handleGrading}>Grade</Button>{' '}
+              </div>
         </div>
 
         {/* UPLOAD MIDI V2 */}
@@ -898,9 +886,7 @@ afterSetStateFinished() {
        </form> : null }
        {/* ---------------- */}
 
-      </div>
-
-    );
+      </div>);
   }
 }
 
