@@ -50,11 +50,6 @@ export default class MusicUpload extends React.Component {
         .catch(err => console.log(err))
   };
   
-
-  openForm = () => {
-    document.getElementById("myForm").style.display = "block";
-  }
-  
   closeForm = () => {
     document.getElementById("myForm").style.display = "none";
   }
@@ -62,8 +57,6 @@ export default class MusicUpload extends React.Component {
   render() {
     return (
       <div>
-        <div className="open-button" onClick={this.openForm} >Upload Midi</div>
-
         <div className="form-popup" id="myForm">
           <form action="" className="form-container" onSubmit={this.handleSubmit}>
             
@@ -81,7 +74,6 @@ export default class MusicUpload extends React.Component {
 
           </form>
         </div>
-
       </div>
     )
   }

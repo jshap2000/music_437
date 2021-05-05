@@ -790,103 +790,94 @@ afterSetStateFinished() {
     // And get a drawing context:
 
 
-    return (
-      <div id="page">
-        <Navbar id="navbar" bg="light" variant="light">
-          <img id="icon1" src="MusicNote.png" alt="note icon"/>
-          <Navbar.Brand >Piano Practice</Navbar.Brand>
-          <Nav className="mr-auto">
-            <img id="icon2" src="webkeyboard.png" alt="midi icon"/>
-            <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
-            <img id="icon3" src="midikeyboard.png" alt="webkey icon"/>
-            <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
-            <Nav.Link><MusicUpload options={this.getOptions}> </MusicUpload> </Nav.Link>
-            <Nav.Link onClick={this.handleShowUploadForm}>Upload Midi v2</Nav.Link>
-          </Nav>
-          <div id="op">
+  return (
+    <div id="page">
+      <Navbar id="navbar" bg="light" variant="light">
+        <img id="icon1" src="MusicNote.png" alt="note icon"/>
+        <Navbar.Brand >Piano Practice</Navbar.Brand>
+        <Nav className="mr-auto">
+          <img id="icon2" src="webkeyboard.png" alt="midi icon"/>
+          <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
+          <img id="icon3" src="midikeyboard.png" alt="webkey icon"/>
+          <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
+          <Nav.Link onClick={this.handleShowUploadForm}>Upload Midi</Nav.Link>
+        </Nav>
+
+        <div id="op">
           <img id="icon4" src="search.png" alt="search icon"/>
+          
           <div id='options'>
             <Select id="options" options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
-          </div></div>
-        </Navbar>
-
-        <div id="banner">
-          <img id="bg" src="piano.jpg" alt="piano banner"/>
-          <p id="slogan">A new way to practice.</p>
-          <button id="exploreBtn" onClick={this.scrollToView}>Explore</button>
-        </div>
-
-        <div id="jumpHere"></div>
-
-        <div className="grading" id = 'grading' hidden='hidden'>
-          <div id='grading-text'>Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span id="here" onClick={this.handleReturn}>here</span> to play again.</div>
-          <div id ="grading-display" ></div>
-        </div>
-
-        <div class="row">
-          <div class="column" id="col1">
-            <h2 id="artist">Artist</h2>
-            <p>The artist for this piece is Joni Mitchell.</p>
-          </div>
-          <div class="column" id="col2">
-            <h2 id="tips">Some Tips</h2>
-            <p>Make sure to count out loud. Take a deep breath before you start. You're going to do great!</p>
-          </div>
-          <div class="column" id="col3">
-            <h2 id="signature">Time Signature</h2>
-            <p>The time signature for this piece is 4:4.</p>
           </div>
         </div>
+      </Navbar>
 
-        <div id = "playing-display" className="playing"></div>
+      {this.state.isUploadFormActive ? <MusicUpload options={this.getOptions}> </MusicUpload> : null}
 
-        <div>
-          <div id={'exercise-container'}>
-            <div id="container">
-              <div id="music"></div>
-            </div>
-              <div id="controls"></div>
+      <div id="banner">
+        <img id="bg" src="piano.jpg" alt="piano banner"/>
+        <p id="slogan">A new way to practice.</p>
+        <button id="exploreBtn" onClick={this.scrollToView}>Explore</button>
+      </div>
+
+      <div id="jumpHere"></div>
+
+      <div className="grading" id = 'grading' hidden='hidden'>
+        <div id='grading-text'>Congragulations! You Played <span id = 'correct'></span> notes <span id = 'correct-label'>correctly</span> and <span id = 'incorrect'></span> notes <span id = 'incorrect-label'>incorrectly</span>. <span id = 'unplayed'></span> notes were <span id = 'unplayed-label'>unplayed</span>. Click <span id="here" onClick={this.handleReturn}>here</span> to play again.</div>
+        <div id ="grading-display" ></div>
+      </div>
+
+      <div class="row">
+        <div class="column" id="col1">
+          <h2 id="artist">Artist</h2>
+          <p>The artist for this piece is Joni Mitchell.</p>
+        </div>
+        <div class="column" id="col2">
+          <h2 id="tips">Some Tips</h2>
+          <p>Make sure to count out loud. Take a deep breath before you start. You're going to do great!</p>
+        </div>
+        <div class="column" id="col3">
+          <h2 id="signature">Time Signature</h2>
+          <p>The time signature for this piece is 4:4.</p>
+        </div>
+      </div>
+
+      <div id = "playing-display" className="playing"></div>
+
+      <div>
+        <div id={'exercise-container'}>
+          <div id="container">
+            <div id="music"></div>
           </div>
-
-              {/* keyboard */}
-              <div className="mt-5" id='piano_container'>
-                <SoundfontProvider
-                  instrumentName="acoustic_grand_piano"
-                  audioContext={audioContext}
-                  hostname={soundfontHostname}
-                  render={({ isLoading, playNote, stopNote }) => (
-                    <PianoWithRecording
-                      timerStart={this.state.timerStart}
-                      recording={this.state.recording}
-                      setRecording={this.setRecording}
-                      noteRange={noteRange}
-                      width={700}
-                      playNote={playNote}
-                      stopNote={stopNote}
-                      disabled={isLoading}
-                      timerOn={this.state.timerOn}
-                    />
-                  )}
-                />
-              </div>
-              <div id='button-grade'>
-                <Button id="gradeBtn" variant="success" onClick={this.handleGrading}>Grade</Button>{' '}
-              </div>
+            <div id="controls"></div>
         </div>
 
-        {/* UPLOAD MIDI V2 */}
-        {this.state.isUploadFormActive ? <form>
-        <p>Song Title</p>
-        <input name='uploadTitle' type="text" onChange={this.handleOnChange}/>
-        <p>Midi File</p>
-        <input id='fileInput' name='uploadFile' type='file' onChange={this.handleOnFileUpload}/>
-        <div id='button-upload'>
-              <Button onClick={this.handleUpload}>Upload</Button>
-            </div>
-       </form> : null }
-       {/* ---------------- */}
+        {/* keyboard */}
+        <div className="mt-5" id='piano_container'>
+          <SoundfontProvider
+            instrumentName="acoustic_grand_piano"
+            audioContext={audioContext}
+            hostname={soundfontHostname}
+            render={({ isLoading, playNote, stopNote }) => (
+              <PianoWithRecording
+                timerStart={this.state.timerStart}
+                recording={this.state.recording}
+                setRecording={this.setRecording}
+                noteRange={noteRange}
+                width={700}
+                playNote={playNote}
+                stopNote={stopNote}
+                disabled={isLoading}
+                timerOn={this.state.timerOn}/>
+            )}
+          />
+        </div>
 
-      </div>);
+        <div id='button-grade'>
+          <Button id="gradeBtn" variant="success" onClick={this.handleGrading}>Grade</Button>{' '}
+        </div>
+      </div>
+    </div>);
   }
 }
 

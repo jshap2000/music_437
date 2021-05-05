@@ -15,9 +15,9 @@ open-button {
   width: 280px;
 }
 
-/* The popup form - hidden by default */
+/* The popup form - no longer hidden by default */
 .form-popup {
-  display: none;
+  /* display: none; */
   position: fixed;
   bottom: 0;
   right: 15px;
