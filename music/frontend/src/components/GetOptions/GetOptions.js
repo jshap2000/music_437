@@ -20,7 +20,6 @@ export default class getOptions extends React.Component {
       "notes" : d.notes,
       "grading": d.grading,
     }));
-    console.log(options);
     this.props.setOptionsStart(options);
    }
 

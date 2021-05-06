@@ -17,6 +17,7 @@ import {Container, Row, Col, Navbar, Nav, Form, FormControl} from 'react-bootstr
 
 import MusicUpload from './components/MusicUpload/MusicUpload.js';
 import GetOptions from './components/GetOptions/GetOptions.js';
+import SheetMusicDisplay from './components/SheetMusicDisplay/SheetMusicDisplay.js';
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -55,6 +56,7 @@ class App extends React.Component {
     time_signature: "",
     preset:false,
     playing: false,
+    actively_playing: false,
     interval: null,
     midi_present: false,
     isUploadFormActive: false,
@@ -83,7 +85,8 @@ class App extends React.Component {
       recording: Object.assign({}, this.state.recording, value),
     });
     if(this.state.playing === true) {
-      this.afterSetStateFinished();
+      this.setState({actively_playing: true})
+      //this.afterSetStateFinished();
     }
   };
 
@@ -120,6 +123,8 @@ class App extends React.Component {
 
   /* Recording Helper methods - end */
    
+
+
   /* Options menu helper methods - start */
 
   setOptionsStart = (options) => {
@@ -141,273 +146,16 @@ class App extends React.Component {
 
   /* Options menu helper methods - end */
 
-afterSetStateFinished() {
-    //this.state.playing=true; 
-    this.setState({playing: true});
-
-    var div = document.getElementById("music")
-    var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
-    var context = renderer.getContext();
-    renderer.resize(10000, 10000);
-
-      // A tickContext is required to draw anything that would be placed
-      // in relation to time/rhythm, including StaveNote which we use here.
-      // In real music, this allows VexFlow to align notes from multiple
-      // voices with different rhythms horizontally. Here, it doesn't do much
-      // for us, since we'll be animating the horizontal placement of notes,
-      // but we still need to add our notes to a tickContext so that they get
-      // an x value and can be rendered.
-      //
-
-      // If we create a voice, it will automatically apply a tickContext to our
-      // notes, and space them relative to each other based on their duration &
-      // the space available. We definitely do not want that here! So, instead
-      // of creating a voice, we handle that part of the drawing manually.
-
-    var tickContext = new VF.TickContext();
-
-    // Create a stave of width 10000 at position 10, 40 on the canvas.
-    var stave = new VF.Stave(10, 10, 10000)
-    .addClef('treble');
-
-    var stave2 = new VF.Stave(10, 100, 10000)
-    .addClef('bass');
-
-    // Connect it to the rendering context and draw!
-    stave.setContext(context).draw();
-    stave2.setContext(context).draw();
-
-    var durations = [];
-    var notes_dict = JSON.parse((String(this.state.notes).replace(/'/g,'"').replace(/\.0/g,".0").replace(/\.5/g,".5")));
-    // ['c', '', 2]
-    var end_time = 0
-    var keys = []
-    let notes_treble = [];
-    let notes_bass = [];
-
-    for (var key in notes_dict) {
-      let note1 = notes_dict[key];
-
-      for (var n of note1) {
-        if(n[0]<=58) {
-          var appendNote = [n[1].toLowerCase(), n[3].toLowerCase().trim(), n[2]];
-          notes_bass.push(appendNote);
-        } else {
-          var appendNote = [n[1].toLowerCase(), n[3].toLowerCase().trim(), n[2]];
-          notes_treble.push(appendNote);
-        }
-      }
-
-      end_time = parseFloat(key);
-    }
-
-    var bass_arr = [];
-    var treble_arr= [];
-
-    for(var a = 0; a <= end_time; a+= 0.25) {
-      var time_str = String(a);
-
-      if(a%1 === 0) {time_str+=".0"} 
-        
-      if(notes_dict[time_str]) {
-        let treb_counter = 0;
-        let bass_counter = 0;
-        let note1 = notes_dict[time_str];
-
-        for (var n of note1) {
-          if(n[0] <= 58) {bass_counter += 1;} 
-            else {treb_counter += 1;}
-        }
-
-        bass_arr.push(bass_counter);
-        treble_arr.push(treb_counter);
-
-      } else {
-        bass_arr.push(0);
-        treble_arr.push(0);
-      }
-    }
-    
-    let notes = notes_treble.map(([letter, acc, octave]) => {
-      const note = new VF.StaveNote({
-        clef: 'treble',
-        keys: [`${letter}${acc}/${octave}`],
-        duration: '4',
-        })
-        .setContext(context)
-        .setStave(stave);
-
-      // If a StaveNote has an accidental, we must render it manually.
-      // This is so that you get full control over whether to render
-      // an accidental depending on the musical context. Here, if we
-      // have one, we want to render it. (Theoretically, we might
-      // add logic to render a natural sign if we had the same letter
-      // name previously with an accidental. Or, perhaps every twelfth
-      // note or so we might render a natural sign randomly, just to be
-      // sure our user who's learning to read accidentals learns
-      // what the natural symbol means.)
-
-      if (acc) {
-        note.addAccidental(0, new VF.Accidental(acc));
-      }
-
-      tickContext.addTickable(note);
-
-      return note;
-    });
-
-    let notes3 = notes_bass.map(([letter, acc, octave]) => {
-      const note = new VF.StaveNote({
-        clef: 'bass',
-        keys: [`${letter}${acc}/${octave}`],
-        duration: '4',
-        })
-        .setContext(context)
-        .setStave(stave2);
-
-      // If a StaveNote has an accidental, we must render it manually.
-      // This is so that you get full control over whether to render
-      // an accidental depending on the musical context. Here, if we
-      // have one, we want to render it. (Theoretically, we might
-      // add logic to render a natural sign if we had the same letter
-      // name previously with an accidental. Or, perhaps every twelfth
-      // note or so we might render a natural sign randomly, just to be
-      // sure our user who's learning to read accidentals learns
-      // what the natural symbol means.)
-
-      if (acc) {
-        note.addAccidental(0, new VF.Accidental(acc));
-      }
-
-      tickContext.addTickable(note);
-
-      return note;
-    });
-
-
-    // The tickContext.preFormat() call assigns x-values (and other
-    // formatting values) to notes. It must be called after we've
-    // created the notes and added them to the tickContext. Or, it
-    // can be called each time a note is added, if the number of
-    // notes needed is not known at the time of bootstrapping.
-    //
-    // To see what happens if you put it in the wrong place, try moving
-    // this line up to where the TickContext is initialized, and check
-    // out the error message you get.
-    //
-    // tickContext.setX() establishes the left-most x position for all
-    // of the 'tickables' (notes, etc...) in a context.
-    tickContext.preFormat().setX(400);
-    //context.preFormat().setX(400);
-    // This will contain any notes that are currently visible on the staff,
-    // before they've either been answered correctly, or plumetted off
-    // the staff when a user fails to answer them correctly in time.
-    // TODO: Add sound effects.
-    const visibleNoteGroups = [];
-    // Add a note to the staff from the notes array (if there are any left).
-    var counter = 0;
-
-    this.state.interval = setInterval(() => {
-      for(var i = 0; i < treble_arr[counter]; i++) {
-        var note = notes.shift();
-        if (!note) return;
-        
-        const group = context.openGroup();
-        visibleNoteGroups.push(group);
-        note.draw();
-      
-        context.closeGroup();
-        group.classList.add('scroll');
-        // Force a dom-refresh by asking for the group's bounding box. Why? Most
-        // modern browsers are smart enough to realize that adding .scroll class
-        // hasn't changed anything about the rendering, so they wait to apply it
-        // at the next dom refresh, when they can apply any other changes at the
-        // same time for optimization. However, if we allow that to happen,
-        // then sometimes the note will immediately jump to its fully transformed
-        // position -- because the transform will be applied before the class with
-        // its transition rule. 
-        const box = group.getBoundingClientRect();
-        group.classList.add('scrolling');
-
-        // If a user doesn't answer in time make the note fall below the staff
-        window.setTimeout(() => {
-            //const index = visibleNoteGroups.indexOf(group);
-            // if (index === -1) return;
-            group.classList.add('too-slow');
-            // visibleNoteGroups.shift();
-        }, 5000); }
-
-      for(var i = 0; i < bass_arr[counter]; i++) {
-        var note = notes3.shift();
-        if (!note) return;
-        
-        const group = context.openGroup();
-        visibleNoteGroups.push(group);
-        note.draw();
-  
-      context.closeGroup();
-      group.classList.add('scroll');
-      // Force a dom-refresh by asking for the group's bounding box. Why? Most
-      // modern browsers are smart enough to realize that adding .scroll class
-      // hasn't changed anything about the rendering, so they wait to apply it
-      // at the next dom refresh, when they can apply any other changes at the
-      // same time for optimization. However, if we allow that to happen,
-      // then sometimes the note will immediately jump to its fully transformed
-      // position -- because the transform will be applied before the class with
-      // its transition rule.
-      const box = group.getBoundingClientRect();
-      group.classList.add('scrolling');
-
-      // If a user doesn't answer in time make the note fall below the staff
-      window.setTimeout(() => {
-        //const index = visibleNoteGroups.indexOf(group);
-        // if (index === -1) return;
-        group.classList.add('too-slow');
-        // visibleNoteGroups.shift();
-    }, 5000); }
-
-    counter+=1;
-
-    }, 250);
-  }
-
   handleShowUploadForm = () => {
     this.setState(({ isUploadFormActive }) => (
       { isUploadFormActive: !isUploadFormActive }));
-  }
-
-  handleOnChange = (e) => {
-    let nam = e.target.name;
-    let val = e.target.value;
-    this.setState({[nam]: val});
-  }
-
-  handleOnFileUpload = (e) => {
-    let nam = e.target.name;
-    let val = e.target.files;
-    this.setState({[nam]: val[0]});
-  }
-
-  handleUpload = (e) => {
-    e.preventDefault(); 
-    //console.log("Uploading File...");
-    let formData = new FormData();
-    formData.append('title', this.state.uploadTitle);
-    formData.append('file', this.state.uploadFile, this.state.uploadFile.name);
-
-    let url = 'http://localhost:8000/playable_pieces/';
-
-    axios
-      .post(url, formData, {
-        headers: { 'content-type': 'multipart/form-data'}})
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
   }
 
   handleGrading = (e) => {
 
     if(this.state.playing === false) return;
 
+    this.setState({actively_playing: false});
     var note_dict = JSON.parse((String(this.state.grading).replace(/'/g,'"').replace(/\.0/g,".0").replace(/\.5/g,".5"))); 
     let correct_notes = []
     var incorrect_notes = []
@@ -828,12 +576,7 @@ afterSetStateFinished() {
         <div id = "playing-display" className="playing"></div>
 
         <div>
-          <div id={'exercise-container'}>
-            <div id="container">
-              <div id="music"></div>
-            </div>
-              <div id="controls"></div>
-          </div>
+        <SheetMusicDisplay actively_playing={this.state.actively_playing} notes={this.state.notes}></SheetMusicDisplay>
 
               {/* keyboard */}
               <div className="mt-5" id='piano_container'>
@@ -860,18 +603,6 @@ afterSetStateFinished() {
                 <Button id="gradeBtn" variant="success" onClick={this.handleGrading}>Grade</Button>{' '}
               </div>
         </div>
-
-        {/* UPLOAD MIDI V2 */}
-        {this.state.isUploadFormActive ? <form>
-        <p>Song Title</p>
-        <input name='uploadTitle' type="text" onChange={this.handleOnChange}/>
-        <p>Midi File</p>
-        <input id='fileInput' name='uploadFile' type='file' onChange={this.handleOnFileUpload}/>
-        <div id='button-upload'>
-              <Button onClick={this.handleUpload}>Upload</Button>
-            </div>
-       </form> : null }
-       {/* ---------------- */}
 
       </div>);
   }
