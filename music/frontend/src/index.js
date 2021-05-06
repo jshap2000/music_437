@@ -16,21 +16,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col, Navbar, Nav, Form, FormControl} from 'react-bootstrap';
 
 import MusicUpload from './components/MusicUpload/MusicUpload.js';
+import GetOptions from './components/GetOptions/GetOptions.js';
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
 
 const VF = Vex.Flow;
-
-// const {
-//     Accidental,
-//     Formatter,
-//     Stave,
-//     StaveNote,
-//     Renderer,
-//     EasyScore,
-// } = Vex.Flow;
 
 // webkitAudioContext fallback needed to support Safari
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -64,7 +56,6 @@ class App extends React.Component {
     preset:false,
     playing: false,
     interval: null,
-    just_switched_song: false,
     midi_present: false,
     isUploadFormActive: false,
     uploadTitle: "",
@@ -75,6 +66,8 @@ class App extends React.Component {
     super(props);
     this.scheduledEvents = [];
   }
+
+  /* Recording Helper ethods - start */
 
   getRecordingEndTime = () => {
     if (this.state.recording.events.length === 0) {
@@ -124,24 +117,16 @@ class App extends React.Component {
       currentTime: 0
     });
   };
-   
-  componentWillMount() {
-    this.getOptions()
-  }
 
-  getOptions = async() => {
-    const res = await axios.get('/playable_pieces');
-    const data = res.data.results;
-    const options = data.map(d => ({
-      "value" : d.title,
-      "label" : d.title,
-      "notes" : d.notes,
-      "grading": d.grading,
-    }));
+  /* Recording Helper methods - end */
+   
+  /* Options menu helper methods - start */
+
+  setOptionsStart = (options) => {
     this.setState({selectOptions: options})
   }
 
-  handleOptionsChange(val){
+  handleOptionsChange = (val) => {
     this.setState({
       title: val.value, 
       notes: val.notes, 
@@ -153,6 +138,8 @@ class App extends React.Component {
         this.setState({playing: true});
       });
   }
+
+  /* Options menu helper methods - end */
 
 afterSetStateFinished() {
     //this.state.playing=true; 
@@ -800,13 +787,13 @@ afterSetStateFinished() {
             <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
             <img id="icon3" src="midikeyboard.png" alt="webkey icon"/>
             <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
-            <div id='uploading_midi'><MusicUpload options={this.getOptions}> </MusicUpload> </div>
+            
            
           </Nav>
           <div id="op">
           <img id="icon4" src="search.png" alt="search icon"/>
           <div id='options'>
-            <Select id="options" options={this.state.selectOptions} onChange={this.handleOptionsChange.bind(this)}/>
+            <GetOptions options={this.state.selectOptions} setOptionsStart={this.setOptionsStart} handleOptionsChange={this.handleOptionsChange}></GetOptions>
           </div></div>
         </Navbar>
 
