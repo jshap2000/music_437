@@ -30,21 +30,18 @@ code {
   height:30px;
   width:30px;
 }
-#icon3{
-  margin-top:5px;
-  margin-left:10px;
-  height:30px;
-  width:40px;
-}
+
 #icon2{
   margin-top:2px;
   margin-left:15px;
   height:30px;
   width:40px;
 }
-#icon4{
+
+#icon3{
   margin-top:5px;
-  height:25px;
+  margin-left:10px;
+  height:30px;
   width:40px;
 }
 
@@ -56,6 +53,7 @@ code {
 #banner{
   position: relative;
 }
+
 #exploreBtn{
   margin: 0;
   position: absolute;
@@ -68,6 +66,7 @@ code {
   border-radius: 15px;
   font-size: 15pt;
 }
+
 #slogan{
   margin: 0;
   position: absolute;
@@ -86,21 +85,23 @@ code {
   background-color: rgba(176,176,176,0.8);
 }
 
-#container {
-  width: 550px;
-  height: 200px;
-  overflow: hidden;
-  border: 1px solid deeppink;
+/* Experimented with table-cell to center
+piano-keyboard relative to the center of 
+excercise container */
+
+/* #app_container {
+  border: solid #000 1px;
+  display: table-cell;
+  vertical-align: middle;
+  height: auto;
   width: 50%;
+  text-align: center;
   margin: auto;
-  background-color: white;
 }
 
-#container > div {
-  width: 10000px;
-  height: 120px;
-  white-space: nowrap;
-}
+#app_container > div {
+  display: inline-block;
+} */
 
 #controls {
   padding: 15px;
@@ -172,21 +173,13 @@ code {
 
 #piano_container {
   margin: auto;
-  width: 85%;
 }
 
-#icon4{
-  margin-right: -290px;
-}
 #op {
   margin-right: 0px;
   display: flex;
   text-align: center;
 }
-#options{
-  margin-right: 360px;
-}
-
 
 /* Fixed sidenav, full height */
 .sidenav {
@@ -261,7 +254,6 @@ code {
 
 #options {
   width: 250px;
-  margin-left: 50%;
 }
 
 #col1 {
@@ -279,9 +271,25 @@ code {
   padding-bottom: 50px;
 }
 
+#container {
+  width: 550px;
+  height: 200px;
+  overflow: hidden;
+  border: 1px solid deeppink;
+  margin: auto;
+  background-color: white;
+}
+
+#container > div {
+  width: 10000px;
+  height: 120px;
+  white-space: nowrap;
+}
+
 #button-grade {
   padding-top: 30px;
-
+  width: 80px;
+  margin: auto;
 }
 
 #here {
