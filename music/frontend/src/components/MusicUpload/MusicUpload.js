@@ -6,11 +6,15 @@ axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
 
 export default class MusicUpload extends React.Component {
+  constructor(props) {
+    super(props);
+   }
+
     state = {
       title: "",
       midi: null,
       distance: 0,
-      time_signature: 4,
+      time_signature: 4
     }
   
   handleMidiChange = (e) => {
@@ -51,8 +55,9 @@ export default class MusicUpload extends React.Component {
       }
     })
         .then(res => {
+          console.log(res.data);
+          this.props.handleShowUploadForm();
           this.getOptions();
-          this.closeForm();
         })
         .catch(err => console.log(err))
   };
@@ -69,30 +74,10 @@ export default class MusicUpload extends React.Component {
     }));
     this.props.setOptionsStart(options);
    }
-  
-
-  openForm = () => {
-    this.flushForm();
-    document.getElementById("myForm").style.display = "block";
-  }
-  
-  closeForm = () => {
-    this.flushForm();
-    this.props.handleShowUploadForm();
-    document.getElementById("myForm").style.display = "none";
-  }
-
-  flushForm = () => {
-    document.getElementById('title').value = "";
-    document.getElementById('midi').value = "";
-    document.getElementById('space_between').value = "";
-    document.getElementById('time_signature').value = "";
-  }
 
   render() {
     return (
       <div>
-        <div className="open-button" onClick={this.openForm} >Upload Midi</div>
 
         <div className="form-popup" id="myForm">
           <form action="" className="form-container" onSubmit={this.handleSubmit}>
@@ -115,8 +100,7 @@ export default class MusicUpload extends React.Component {
             </div>
 
             <button type="submit" className="btn">Save</button>
-            <button type="button" className="btn cancel" onClick={this.closeForm}>Close</button>
-
+            <button type="button" className="btn cancel" onClick={this.props.handleShowUploadForm}>Close</button>
           </form>
         </div>
 

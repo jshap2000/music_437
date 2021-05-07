@@ -100,10 +100,16 @@ code {
 }
 
 #piano_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#mypiano {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 30%;
+  width: 40%;
 }
 
 #icon4{
