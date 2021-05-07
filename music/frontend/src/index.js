@@ -231,13 +231,12 @@ class App extends React.Component {
             </div>
           </div>
 
-          <div id = "playing-display" className="playing"></div>
 
           <div>
             <SheetMusicDisplay actively_playing={this.state.actively_playing} notes={this.state.notes}></SheetMusicDisplay>
             {/* keyboard */}
             <div className="mt-5" id='piano_container'>
-              <SoundfontProvider
+              <SoundfontProvider id = 'mypiano'
                 instrumentName="acoustic_grand_piano"
                 audioContext={audioContext}
                 hostname={soundfontHostname}

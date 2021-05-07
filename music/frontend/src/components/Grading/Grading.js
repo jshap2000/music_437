@@ -16,7 +16,7 @@ export default class Grading extends React.Component {
 
   handleGrading = (e) => {
 
-    if(this.props.playing === false) return;
+    if(this.props.playing === false) return alert("Pick a song!");
 
     this.props.setActivePlayingFalse();
     var note_dict = JSON.parse((String(this.props.grading).replace(/'/g,'"').replace(/\.0/g,".0").replace(/\.5/g,".5"))); 

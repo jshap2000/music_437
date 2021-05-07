@@ -1,5 +1,6 @@
 import React from 'react';
 import Vex from 'vexflow';
+import './SheetMusicDisplay.css';
 const VF = Vex.Flow;
 
 export default class getOptions extends React.Component {

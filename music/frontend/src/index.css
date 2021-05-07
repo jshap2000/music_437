@@ -86,83 +86,6 @@ code {
   background-color: rgba(176,176,176,0.8);
 }
 
-#container {
-  width: 550px;
-  height: 200px;
-  overflow: hidden;
-  border: 1px solid deeppink;
-  width: 50%;
-  margin: auto;
-  background-color: white;
-}
-
-#container > div {
-  width: 10000px;
-  height: 120px;
-  white-space: nowrap;
-}
-
-#controls {
-  padding: 15px;
-}
-
-#controls > button {
-  margin: 5px;
-}
-
-#correct {
-  font-weight: bold;
-  color: palegreen;
-}
-
-#grading-text {
-  padding-top: 50px;
-}
-
-#correct-label {
-  background-color: palegreen;
-}
-
-#incorrect-label {
-  background-color: lightcoral;
-}
-
-#incorrect {
-  font-weight: bold;
-  color: lightcoral;
-}
-
-#unplayed {
-  font-weight: bold;
-  color: orange;
-}
-
-#unplayed-label {
-  background-color: orange;
-}
-
-.scroll {
-  transition: transform 5s linear, opacity 0.5s ease-out, fill 0.2s linear;
-}
-
-.scrolling {
-  transform: translate(-400px, 0);
-}
-
-.correct {
-  opacity: 0;
-}
-
-.too-slow {
-  transform: translate(400px, -2000px);
-}
-
-.grading {
-  width: 70%;
-  margin: auto;
-  text-align: center;
-  font-size: xx-large;
-}
 
 .playing {
   width: 50%;
@@ -177,8 +100,10 @@ code {
 }
 
 #piano_container {
-  margin: auto;
-  width: 85%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
 }
 
 #icon4{
@@ -193,39 +118,6 @@ code {
   margin-right: 360px;
 }
 
-
-/* Fixed sidenav, full height */
-.sidenav {
-  height: 100%;
-  width: 250px;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: orange;
-  overflow-x: hidden;
-  padding-top: 20px;
-}
-
-/* Style the sidenav links and the dropdown button */
-.sidenav a, .dropdown-btn {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 25px;
-  color: black;
-  display: block;
-  border: none;
-  background: none;
-  width:75%;
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-}
-
-/* On mouse-over */
-.sidenav a:hover, .dropdown-btn:hover {
-  color: #f1f1f1;
-}
 
 /* Main content */
 .main {

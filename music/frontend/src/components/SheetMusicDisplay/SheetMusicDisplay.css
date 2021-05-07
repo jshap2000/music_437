@@ -6,22 +6,22 @@
     width: 50%;
     margin: auto;
     background-color: white;
-  }
+}
   
-  #container > div {
-    width: 10000px;
-    height: 120px;
-    white-space: nowrap;
-  }
+#container > div {
+  width: 10000px;
+  height: 120px;
+  white-space: nowrap;
+}
 
-  .scroll {
-    transition: transform 5s linear, opacity 0.5s ease-out, fill 0.2s linear;
-  }
-  
-  .scrolling {
-    transform: translate(-400px, 0);
-  }
+.scroll {
+  transition: transform 5s linear, opacity 0.5s ease-out, fill 0.2s linear;
+}
 
-  .too-slow {
-    transform: translate(400px, -2000px);
-  }
+.scrolling {
+  transform: translate(-400px, 0);
+}
+
+.too-slow {
+  transform: translate(400px, -2000px);
+}
