@@ -115,11 +115,11 @@ class App extends React.Component {
     });
   };
 
-  /* Recording Helper methods - end */
+  /* Recording helper methods - end */
    
 
 
-  /* Options menu helper methods - start */
+  /* Options menu helper methods - begin */
 
   setNewSongAddedTrue = () => {
     this.state.newSongAdded = true;
@@ -148,7 +148,7 @@ class App extends React.Component {
 
   /* Options menu helper methods - end */
 
-  /* Grading helper methods start */
+  /* Grading helper methods - begin */
 
   handleExit = () => {
     document.getElementById('not-grading').hidden = "hidden";
@@ -170,9 +170,7 @@ class App extends React.Component {
     clearInterval(this.state.interval);
   }
 
-  /* Grading helper methods end */
-
-
+  /* Grading helper methods - end */
 
   handleShowUploadForm = () => {
     this.setState(({ isUploadFormActive }) => (
@@ -196,10 +194,6 @@ class App extends React.Component {
   }
 
   render() {
-
-    // And get a drawing context:
-
-
     return (
       <div id="page">
         <div id="not-grading">
@@ -211,16 +205,30 @@ class App extends React.Component {
               <Nav.Link id = 'Web' onClick={this.setWeb}>Web Keyboard</Nav.Link>
               <img id="icon3" src="midikeyboard.png" alt="webkey icon"/>
               <Nav.Link  id= 'MidiBoard' onClick={this.setMidi}>Midi Keyboard</Nav.Link>
-              <div id='uploadBar'><MusicUpload setOptionsStart={this.setOptionsStart} setNewSongAddedTrue={this.setNewSongAddedTrue}> </MusicUpload></div>
+              <Nav.Link onClick={this.handleShowUploadForm}>Upload Midi</Nav.Link>
               
             </Nav>
             <div id="op">
               <div id='options'>
-                <GetOptions options={this.state.selectOptions} setOptionsStart={this.setOptionsStart} handleOptionsChange={this.handleOptionsChange} newSongAdded={this.state.newSongAdded} setNewSongAddedFalse={this.setNewSongAddedTrue}></GetOptions>
+                <GetOptions 
+                  options={this.state.selectOptions} 
+                  setOptionsStart={this.setOptionsStart.bind(this)} 
+                  handleOptionsChange={this.handleOptionsChange} 
+                  newSongAdded={this.state.newSongAdded} 
+                  setNewSongAddedFalse={this.setNewSongAddedTrue}>
+                </GetOptions>
               </div>
             </div>
           </Navbar>
-          
+
+          {this.state.isUploadFormActive ? 
+            <MusicUpload 
+              setOptionsStart={this.setOptionsStart} 
+              setNewSongAddedTrue={this.setNewSongAddedTrue} 
+              handleShowUploadForm={this.handleShowUploadForm.bind(this)}> 
+            </MusicUpload> : null
+          }
+
 
           <div id="banner">
             <img id="bg" src="piano.jpg" alt="piano banner"/>
@@ -248,7 +256,10 @@ class App extends React.Component {
 
 
           <div>
-            <SheetMusicDisplay actively_playing={this.state.actively_playing} notes={this.state.notes}></SheetMusicDisplay>
+            <SheetMusicDisplay 
+              actively_playing={this.state.actively_playing} 
+              notes={this.state.notes}>
+            </SheetMusicDisplay>
             {/* keyboard */}
             <div className="mt-5" id='piano_container'>
               <SoundfontProvider id = 'mypiano'
@@ -265,6 +276,12 @@ class App extends React.Component {
                     playNote={playNote}
                     stopNote={stopNote}
                     disabled={isLoading}
+                    
+                    {...(!this.state.isUploadFormActive ? 
+                      {keyboardShortcuts:keyboardShortcuts} : 
+                      {})
+                    }
+
                     timerOn={this.state.timerOn}
                   />
                 )}
@@ -273,7 +290,20 @@ class App extends React.Component {
           </div>
         </div>
         <div>
-          <Grading timeSignature= {this.state.time_signature} playing={this.state.playing} setActivePlayingFalse={this.setActivePlayingFalse} notes={this.state.notes} grading={this.state.grading} midi_present={this.state.midi_present} events={this.state.recording.events} setPlayingFalse={this.setPlayingFalse} onClickClear={this.onClickClear} executeClearInterval={this.executeClearInterval} handleExit={this.handleExit} handleReturn={this.handleReturn}></Grading>  
+          <Grading 
+            timeSignature= {this.state.time_signature} 
+            playing={this.state.playing} 
+            setActivePlayingFalse={this.setActivePlayingFalse} 
+            notes={this.state.notes} 
+            grading={this.state.grading} 
+            midi_present={this.state.midi_present} 
+            events={this.state.recording.events} 
+            setPlayingFalse={this.setPlayingFalse} 
+            onClickClear={this.onClickClear} 
+            executeClearInterval={this.executeClearInterval} 
+            handleExit={this.handleExit} 
+            handleReturn={this.handleReturn}>
+          </Grading>  
         </div>
       </div>);
   }
