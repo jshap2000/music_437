@@ -236,5 +236,13 @@ code {
   color: grey;
 }
 
+#Web {
+  background-color: darkgray;
+  margin-left: 5px;
+}
+
+#MidiBoard {
+  margin-left: 5px;
+}
 
 

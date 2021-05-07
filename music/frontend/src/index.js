@@ -185,10 +185,14 @@ class App extends React.Component {
 
   setWeb = () => {
     this.setState({midi_present: false});
+    document.getElementById("Web").style.backgroundColor = "darkgrey";
+    document.getElementById("MidiBoard").style.backgroundColor = "white";
   }
 
   setMidi = () =>  {
     this.setState({midi_present: true});
+    document.getElementById("Web").style.backgroundColor = "white";
+    document.getElementById("MidiBoard").style.backgroundColor = "darkgrey";
   }
 
   render() {
@@ -204,9 +208,9 @@ class App extends React.Component {
             <Navbar.Brand >Piano Practice</Navbar.Brand>
             <Nav className="mr-auto">
               <img id="icon2" src="webkeyboard.png" alt="midi icon"/>
-              <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
+              <Nav.Link id = 'Web' onClick={this.setWeb}>Web Keyboard</Nav.Link>
               <img id="icon3" src="midikeyboard.png" alt="webkey icon"/>
-              <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
+              <Nav.Link  id= 'MidiBoard' onClick={this.setMidi}>Midi Keyboard</Nav.Link>
               <div id='uploadBar'><MusicUpload setOptionsStart={this.setOptionsStart} setNewSongAddedTrue={this.setNewSongAddedTrue}> </MusicUpload></div>
               
             </Nav>

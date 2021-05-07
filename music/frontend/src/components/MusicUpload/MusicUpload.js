@@ -73,11 +73,20 @@ export default class MusicUpload extends React.Component {
   
 
   openForm = () => {
+    this.flushForm();
     document.getElementById("myForm").style.display = "block";
   }
   
   closeForm = () => {
+    this.flushForm();
     document.getElementById("myForm").style.display = "none";
+  }
+
+  flushForm = () => {
+    document.getElementById('title').value = "";
+    document.getElementById('midi').value = "";
+    document.getElementById('space_between').value = "";
+    document.getElementById('time_signature').value = "";
   }
 
   render() {
@@ -89,19 +98,19 @@ export default class MusicUpload extends React.Component {
           <form action="" className="form-container" onSubmit={this.handleSubmit}>
             
             <div>
-              <label htmlFor="title"><b>Title</b></label>
+              <label htmlFor="title"><b>Title</b></label> <br></br>
               <input type="text" id="title" placeholder="Enter Title" onChange={this.handleTitleChange} required></input>
             </div>
             <div className = "formable">
-              <label htmlFor="midi_file"><b>Midi File</b></label>
+              <label htmlFor="midi_file"><b>Midi File</b></label> <br></br>
               <input type="file" id="midi" onChange={this.handleMidiChange} required></input>
             </div>
             <div className = "formable">
-              <label htmlFor="space_between"><b>Time Between First Notes</b></label>
+              <label htmlFor="space_between"><b>Time Between First Notes</b></label> <a href="Timing.png" target="_blank">More Info</a> <br></br>
               <input type="number" step="0.25" placeholder="Enter Time" id="space_between" onChange={this.handleDistanceChange} required/>
             </div>
             <div className = "formable">
-              <label htmlFor="time_signature"><b>Time Signature</b></label>
+              <label htmlFor="time_signature"><b>Time Signature</b></label> <a href="TimeSignature.png" target="_blank">More Info</a> <br></br>
               <input type="number" placeholder="Enter Time Signature" id="time_signature" onChange={this.handleSignatureChange} required/>
             </div>
 
