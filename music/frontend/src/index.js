@@ -233,7 +233,7 @@ class App extends React.Component {
 
           <div className="row">
             <div className="column" id="col1">
-              <h2 id="artist">Artist</h2>
+              <h2 id="piecetitle">Title</h2>
               <p>The title of this piece is {this.state.title}</p>
             </div>
             <div className="column" id="col2">

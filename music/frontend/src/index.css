@@ -145,7 +145,7 @@ code {
   padding-right: 8px;
 }
 
-#artist {
+#piecetitle {
   background-color: orange;
 }
 
@@ -213,7 +213,7 @@ code {
   margin-top: 150px;
 }
 
-#artist{
+#piecetitle{
   font-size: 18pt;
   margin-top: -30px;
 }
