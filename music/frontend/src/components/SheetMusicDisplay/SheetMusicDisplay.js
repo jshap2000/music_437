@@ -237,7 +237,7 @@ export default class getOptions extends React.Component {
             <div id="container">
               <div id="music"></div>
             </div>
-          </div>
+        </div>
       </div>
     )
   }
