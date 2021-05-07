@@ -15,7 +15,7 @@ export default class Grading extends React.Component {
   }
 
   handleGrading = (e) => {
-
+    console.log(this.props.playing);
     if(this.props.playing === false) return alert("Pick a song!");
 
     this.props.setActivePlayingFalse();
@@ -121,7 +121,7 @@ export default class Grading extends React.Component {
     var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
       
     var context = renderer.getContext();
-    renderer.resize(1700, Math.ceil(80*end_time/4));
+    renderer.resize(1700, Math.ceil(80*end_time/this.props.timeSignature));
 
     var i = 0;
     var a = 0;
@@ -131,7 +131,7 @@ export default class Grading extends React.Component {
 
     while(i < end_time) {
 
-      if(i % 16 === 0) {
+      if(i % (4*this.props.timeSignature) === 0) {
         b += 250;
         d += 250;
         a = 0;
@@ -156,7 +156,7 @@ export default class Grading extends React.Component {
     var notes = []
     var t = i;
 
-    while(t<i+4) {
+    while(t<i+this.props.timeSignature) {
       var time_str = t.toString();
       if(t % 1 === 0) {time_str+=".00"}
 
@@ -259,7 +259,7 @@ export default class Grading extends React.Component {
     notes = [];
     t = i;
 
-    while(t < i+4) {
+    while(t < i+this.props.timeSignature) {
 
       var time_str = t.toString();
 

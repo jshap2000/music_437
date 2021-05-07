@@ -54,7 +54,7 @@ class App extends React.Component {
     title: "",
     grading: "",
     notes: "",
-    time_signature: "",
+    time_signature: 4,
     preset:false,
     playing: false,
     actively_playing: false,
@@ -62,7 +62,8 @@ class App extends React.Component {
     midi_present: false,
     isUploadFormActive: false,
     uploadTitle: "",
-    uploadFile: ""
+    uploadFile: "",
+    newSongAdded: false,
   };
 
   constructor(props) {
@@ -120,6 +121,14 @@ class App extends React.Component {
 
   /* Options menu helper methods - start */
 
+  setNewSongAddedTrue = () => {
+    this.state.newSongAdded = true;
+  }
+
+  setNewSongAddedFalse = () => {
+    this.state.newSongAdded = false;
+  }
+
   setOptionsStart = (options) => {
     this.setState({selectOptions: options})
   }
@@ -147,7 +156,7 @@ class App extends React.Component {
 
   handleReturn = () => {
     document.getElementById('not-grading').hidden = "";
-    this.state.playing = true;
+    this.setState({playing: true});
   }
 
   setActivePlayingFalse = () => {
@@ -198,14 +207,16 @@ class App extends React.Component {
               <Nav.Link onClick={this.setWeb}>Web Keyboard</Nav.Link>
               <img id="icon3" src="midikeyboard.png" alt="webkey icon"/>
               <Nav.Link onClick={this.setMidi}>Midi Keyboard</Nav.Link>
+              <div id='uploadBar'><MusicUpload setOptionsStart={this.setOptionsStart} setNewSongAddedTrue={this.setNewSongAddedTrue}> </MusicUpload></div>
               
             </Nav>
             <div id="op">
               <div id='options'>
-                <GetOptions options={this.state.selectOptions} setOptionsStart={this.setOptionsStart} handleOptionsChange={this.handleOptionsChange}></GetOptions>
+                <GetOptions options={this.state.selectOptions} setOptionsStart={this.setOptionsStart} handleOptionsChange={this.handleOptionsChange} newSongAdded={this.state.newSongAdded} setNewSongAddedFalse={this.setNewSongAddedTrue}></GetOptions>
               </div>
             </div>
           </Navbar>
+          
 
           <div id="banner">
             <img id="bg" src="piano.jpg" alt="piano banner"/>
@@ -216,18 +227,18 @@ class App extends React.Component {
           <div id="jumpHere"></div>
 
 
-          <div class="row">
-            <div class="column" id="col1">
+          <div className="row">
+            <div className="column" id="col1">
               <h2 id="artist">Artist</h2>
-              <p>The artist for this piece is Joni Mitchell.</p>
+              <p>The title of this piece is {this.state.title}</p>
             </div>
-            <div class="column" id="col2">
+            <div className="column" id="col2">
               <h2 id="tips">Some Tips</h2>
               <p>Make sure to count out loud. Take a deep breath before you start. You're going to do great!</p>
             </div>
-            <div class="column" id="col3">
+            <div className="column" id="col3">
               <h2 id="signature">Time Signature</h2>
-              <p>The time signature for this piece is 4:4.</p>
+              <p>The time signature for this piece is {this.state.time_signature}:4</p>
             </div>
           </div>
 
@@ -258,7 +269,7 @@ class App extends React.Component {
           </div>
         </div>
         <div>
-          <Grading playing={this.state.playing} setActivePlayingFalse={this.setActivePlayingFalse} notes={this.state.notes} grading={this.state.grading} midi_present={this.state.midi_present} events={this.state.recording.events} setPlayingFalse={this.setPlayingFalse} onClickClear={this.onClickClear} executeClearInterval={this.executeClearInterval} handleExit={this.handleExit} handleReturn={this.handleReturn}></Grading>  
+          <Grading timeSignature= {this.state.time_signature} playing={this.state.playing} setActivePlayingFalse={this.setActivePlayingFalse} notes={this.state.notes} grading={this.state.grading} midi_present={this.state.midi_present} events={this.state.recording.events} setPlayingFalse={this.setPlayingFalse} onClickClear={this.onClickClear} executeClearInterval={this.executeClearInterval} handleExit={this.handleExit} handleReturn={this.handleReturn}></Grading>  
         </div>
       </div>);
   }

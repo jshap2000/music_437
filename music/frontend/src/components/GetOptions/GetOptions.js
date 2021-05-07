@@ -1,9 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import Select from 'react-select';
+import './GetOptions.css';
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.withCredentials = true;
+
 
 export default class getOptions extends React.Component {
   
@@ -19,6 +21,7 @@ export default class getOptions extends React.Component {
       "label" : d.title,
       "notes" : d.notes,
       "grading": d.grading,
+      "time_signature": d.time_signature,
     }));
     this.props.setOptionsStart(options);
    }
