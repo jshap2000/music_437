@@ -68,3 +68,7 @@ open-button {
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 } 
+
+.formable {
+  padding-bottom: 20px;
+}

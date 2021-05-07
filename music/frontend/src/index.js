@@ -88,7 +88,7 @@ class App extends React.Component {
     });
     if(this.state.playing === true) {
       this.setState({actively_playing: true})
-      //this.afterSetStateFinished();
+      document.getElementById('navbar').hidden = "hidden";
     }
   };
 
@@ -156,6 +156,7 @@ class App extends React.Component {
 
   handleReturn = () => {
     document.getElementById('not-grading').hidden = "";
+    document.getElementById('navbar').hidden = "";
     this.setState({playing: true});
   }
 
