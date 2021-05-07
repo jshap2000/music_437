@@ -42,10 +42,12 @@ code {
   height:30px;
   width:40px;
 }
+
 #icon4{
   margin-top:5px;
-  height:25px;
-  width:40px;
+  margin-left:10px;
+  height:30px;
+  width:32px;
 }
 
 #bg{
@@ -112,9 +114,6 @@ code {
   width: 40%;
 }
 
-#icon4{
-  margin-right: -290px;
-}
 #op {
   margin-right: 0px;
   display: flex;
@@ -250,5 +249,3 @@ code {
 #MidiBoard {
   margin-left: 5px;
 }
-
-

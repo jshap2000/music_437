@@ -2,29 +2,29 @@
   font-weight: bold;
   color: palegreen;
 }
-  
+
 #grading-text {
   padding-top: 50px;
 }
-  
+
 #correct-label {
   background-color: palegreen;
 }
-  
+
 #incorrect-label {
   background-color: lightcoral;
 }
-  
+
 #incorrect {
   font-weight: bold;
   color: lightcoral;
 }
-  
+
 #unplayed {
   font-weight: bold;
   color: orange;
 }
-  
+
 #unplayed-label {
   background-color: orange;
 }
@@ -32,18 +32,18 @@
 #here {
   font-weight: bold;
 }
-  
+
 #here:hover {
   background-color: burlywood;
 }
-  
+
 .grading {
   width: 70%;
   margin: auto;
   text-align: center;
   font-size: xx-large;
 }
-  
+
 .playing {
   width: 50%;
   margin: auto;
@@ -55,5 +55,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
-  
